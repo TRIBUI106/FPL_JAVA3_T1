@@ -6,9 +6,9 @@
 
 	<b>YOUR INFORMATION:</b>
 	<ul>
-		<li>Fullname: ${fullname}</li>
-		<li>Gender: ${gender}</li>
-		<li>Country: ${country}</li>
+		<li>Fullname: ${user.fullname}</li>
+		<li>Gender: ${user.gender}</li>
+		<li>Country: ${user.country}</li>
 	</ul>
 
 </body>
