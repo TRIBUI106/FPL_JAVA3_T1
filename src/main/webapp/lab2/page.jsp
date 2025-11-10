@@ -4,6 +4,7 @@
 <html>
 <body>
 
+	<h1>hehe</h1>
 	<h1>${message}</h1>
 	<h2>${now.date}</h2>
 

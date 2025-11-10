@@ -2,17 +2,13 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-
 <head>
-<title>Bài 2 - Lab 2</title>
+<meta charset="UTF-8">
+<title>Lab 2 Index</title>
 </head>
-
 <body>
 
-<h2>${message}</h2>
-<hr>
-<jsp:include page="./user-info.jsp"/>
-
+ INDEX LAB 2
 
 </body>
-</html>	
+</html>

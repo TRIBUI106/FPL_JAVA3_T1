@@ -1,7 +1,6 @@
 package poly.com.controller.lab2;
 
 import java.io.IOException;
-import java.util.Date;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,14 +8,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/lab2/bai1")
-public class bai1_controller extends HttpServlet {
+@WebServlet({"/lab2", "/lab2/"})
+public class Controller extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("message", "Welcome To FPT Polytechnic");
-		req.setAttribute("now", new Date());
-		req.getRequestDispatcher("/lab2/page.jsp").forward(req, resp);
+		// TODO Auto-generated method stub
+		req.getRequestDispatcher("/lab2/menu.jsp").forward(req, resp);
 	}
 	
 }
