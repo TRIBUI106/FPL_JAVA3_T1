@@ -16,6 +16,7 @@
 		<li><a href="lab2/bai1">Bài 1</a></li>
 		<li><a href="lab2/bai2">Bài 2</a></li>
 		<li><a href="lab2/bai3">Bài 3</a></li>
+		<li><a href="lab2/bai4">Bài 4</a></li>
 		<li><a href="/Java3_TV00042">Về trang chủ</a></li>
 	</ul>
 
@@ -42,6 +43,12 @@ ul {
 }
 
 ul > li > a{
+	color: black;
 	text-decoration: none;	
+}
+
+ul > li > a:hover {
+	color: red;
+	text-decoration: underline;
 }
 </style>
