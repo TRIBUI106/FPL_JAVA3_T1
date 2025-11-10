@@ -12,8 +12,8 @@
 	
 	<div class="d-flex justify-content-center gap-4">	
 		<a href="index">Trang chủ</a>
-		<a href="bai1">Bai 1</a>
-		<a href="bai2">Bai 2</a>
+		<a href="bai1">Demo</a>
+		<a href="lab2">Lab 2</a>
 		<a href="bai3">Bai 3</a>
 	</div>
 	
