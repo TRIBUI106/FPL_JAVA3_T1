@@ -15,15 +15,15 @@ public class Bai2_controller extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+		
 		req.setAttribute("message", "Welcome to FPT Polytechnic");
 		Map<String, Object> map = new HashMap<>();
 		map.put("fullname", "Nguyễn Văn Tèo");
 		map.put("gender", "Male");
 		map.put("country", "Việt Nam");
 		req.setAttribute("user", map);
-		
 		req.getRequestDispatcher("/lab2/page2.jsp").forward(req, resp);
+	
 	}
 	
 }

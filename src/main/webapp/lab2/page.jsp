@@ -6,7 +6,7 @@
 
 	<h1>hehe</h1>
 	<h1>${message}</h1>
-	<h2>${now.date}</h2>
+	<h2>${now}</h2>
 
 </body>
 </html>

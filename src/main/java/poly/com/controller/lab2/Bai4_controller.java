@@ -14,6 +14,7 @@ public class Bai4_controller extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		User bean = new User();
 		bean.setFullname("Hậu Đang Khóc");
 		bean.setGender(true);
@@ -21,13 +22,16 @@ public class Bai4_controller extends HttpServlet {
 		req.setAttribute("user", bean);
 		req.setAttribute("editabled", true);
 		req.getRequestDispatcher("/lab2/form.jsp").forward(req, resp);
+	
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		String fullname = req.getParameter("fullname");
 		System.out.println(fullname);
 		req.getRequestDispatcher("/lab2/form.jsp").forward(req, resp);
+	
 	}
 	
 }
