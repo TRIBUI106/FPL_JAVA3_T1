@@ -17,6 +17,7 @@
 	    <li><a href="${pageContext.request.contextPath}/lab2/bai2">Bài 2</a></li>
 	    <li><a href="${pageContext.request.contextPath}/lab2/bai3">Bài 3</a></li>
 	    <li><a href="${pageContext.request.contextPath}/lab2/bai4">Bài 4</a></li>
+	    <li><a href="${pageContext.request.contextPath}/lab2/bai5">Bài 5</a></li>
 	    <li><a href="${pageContext.request.contextPath}/">Về trang chủ</a></li>
 	</ul>
 
