@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<modules>
-  <module moduleId="org.eclipse.jst.jee.server:Java3_TV00042" serverId="Tomcat v10.1 Server at localhost"/>
-  <module moduleId="org.eclipse.jst.jee.server:my-very-first-servlet-project" serverId="Tomcat v10.1 Server at localhost"/>
-  <module moduleId="org.eclipse.jst.jee.server:Lab3" serverId="Tomcat v10.1 Server at localhost"/>
-  <module moduleId="org.eclipse.jst.jee.server:MyVeryFirstServletProject" serverId="Tomcat v10.1 Server at localhost"/>
-</modules>
