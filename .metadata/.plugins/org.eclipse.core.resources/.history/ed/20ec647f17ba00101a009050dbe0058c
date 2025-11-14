@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My First Servlet Project</title>
+</head>
+<body>
+
+	<h1>Hê Lô Quót</h1>
+
+</body>
+</html>
+
+<style>
+
+body > h1 {
+	text-align:center
+}
+
+</style>

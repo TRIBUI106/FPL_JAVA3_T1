@@ -1,0 +1,9 @@
+INDEX VERSION 1.4+C:\Users\MaxBean\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3677396525.index
+3978636656.index
+1007340512.index
+2373559867.index
+335272223.index
+1770451304.index
+2663957826.index
+1259207542.index
