@@ -36,7 +36,7 @@
     <div class="item">
         <jsp:include page="item.jsp">
             <jsp:param name="name" value="Trưởng Buồng"/>
-            <jsp:param name="img" value="anh2.png"/>
+            <jsp:param name="img" value="truongbuong.jpg"/>
         </jsp:include>
     </div>
 
@@ -50,7 +50,7 @@
     <div class="item">
         <jsp:include page="item.jsp">
             <jsp:param name="name" value="Quản Giáo"/>
-            <jsp:param name="img" value="hainam.png"/> 
+            <jsp:param name="img" value="hainam.jpg"/> 
         </jsp:include>
     </div>
     <div class="item">
