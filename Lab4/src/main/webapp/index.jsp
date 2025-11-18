@@ -15,7 +15,7 @@
 		text-align: center;
 	}
 	
-	.container {
+	.navbar {
 		background-color: #E0E0E0;
 		width: 100%;
 		height: 3em;
@@ -26,12 +26,12 @@
 		font-size: 2em;
 	}
 	
-	.container > a {
+	.navbar > a {
 		color: black;
 		transition: .3s;
 	}
 	
-	.container > a:hover {
+	.navbar > a:hover {
 		color: red;
 		text-decoration: underline;
 	}
@@ -42,7 +42,7 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="navbar">
 		<p>Lab 4 - TV00042</p>
 		<a href="${pageContext.request.contextPath }/">Trang chủ</a> 
 		<a href="${pageContext.request.contextPath }/bai1">Bài 1</a> 
