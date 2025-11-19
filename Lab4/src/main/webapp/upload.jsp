@@ -10,6 +10,8 @@
 </head>
 <body>
 
+	<jsp:include page="index.jsp"></jsp:include>
+
 	<h2>Upload file ảnh</h2>
 
 	<c:url value="upload" var="url" />
@@ -21,6 +23,11 @@
 	</form>
 
 	<h3 style="color: green;">${message}</h3>
+
+	<c:if test="${not empty filename}">
+		<c:url value="/static/file/${filename}" var="imgUrl" />
+		<img src="${imgUrl}" width="300">
+	</c:if>
 
 </body>
 </html>
