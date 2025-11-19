@@ -14,7 +14,7 @@ public class bai2 extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("message", "Nhập số và chọn phép tính");
+		req.setAttribute("message", "Nhập vào 2 số và bấm phép tính");
 		req.getRequestDispatcher("/bai2.jsp").forward(req, resp);
 	}
 	
@@ -24,7 +24,7 @@ public class bai2 extends HttpServlet {
 		String bInput = req.getParameter("b");
 		
 		if ( aInput.isBlank() || bInput.isBlank() ) {
-			req.setAttribute("message", "Bạn chưa nhập 1 trong 2 tham số");
+			req.setAttribute("message", "Bạn phải nhập đủ 2 số");
 			req.getRequestDispatcher("/bai2.jsp").forward(req, resp);
 			return;
 		}
@@ -39,18 +39,18 @@ public class bai2 extends HttpServlet {
 			
 			if ( uri.contains("add") ) {
 				int num = a + b;
-				req.setAttribute("message", "Bạn đã chọn dấu '+', kết quả là " + num);
+				req.setAttribute("message", "Bạn đã chọn dấu '+', kết quả là  " + num);
 			}
 			
 			if ( uri.contains("sub") ) {
 				int num = a - b;
-				req.setAttribute("message", "Bạn đã chọn dấu '-', kết quả là " + num);
+				req.setAttribute("message", "Bạn đã chọn dấu '-', kết quả là  " + num);
 			}
 			
 			req.getRequestDispatcher("/bai2.jsp").forward(req, resp);
 			return;
 		} catch (NumberFormatException ex) {
-			req.setAttribute("message", "Bạn phải nhập số, chữ là sai bét");
+			req.setAttribute("message", "Bạn phải nhập số");
 			req.getRequestDispatcher("/bai2.jsp").forward(req, resp);
 			return;
 		}
