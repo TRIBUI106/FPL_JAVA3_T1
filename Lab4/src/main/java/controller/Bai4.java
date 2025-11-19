@@ -30,26 +30,20 @@ public class Bai4 extends HttpServlet {
 		    req.setAttribute("message", "Bạn chưa chọn ảnh !");
 		    req.getRequestDispatcher("/upload.jsp").forward(req, resp);
 	    }
-
-	    // ĐƯỜNG DẪN ĐẾN THƯ MỤC STATIC/FILE TRONG webapp
-	    String appPath = req.getServletContext().getRealPath(""); 
-	    String uploadDir = appPath + "static" + File.separator + "file";
-
-	    // Tạo thư mục nếu chưa có
+	    
+	    // Lấy đường dẫn deploy hiện tại (Tomcat temp)
+	    String appPath = req.getServletContext().getRealPath("/");  
+	    // Thư mục upload trong webapp: static/files
+	    String uploadDir = appPath + "static" + File.separator + "files";
 	    File dir = new File(uploadDir);
-	    if (!dir.exists()) {
-	        dir.mkdirs();
-	    }
 
-	    // Đường dẫn đầy đủ
 	    File file = new File(dir, filename);
-
-	    // Lưu file
 	    photo.write(file.getAbsolutePath());
 
 	    req.setAttribute("message", "Upload thành công!");
 	    req.setAttribute("filename", filename);
 	    req.getRequestDispatcher("/upload.jsp").forward(req, resp);
+
 	}
 
 }
