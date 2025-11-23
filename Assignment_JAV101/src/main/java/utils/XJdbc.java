@@ -10,6 +10,9 @@ import java.sql.Date;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
+import java.util.Properties;
+import java.io.InputStream;
 
 /**
  * Lớp tiện ích hỗ trợ làm việc với CSDL quan hệ
@@ -18,26 +21,41 @@ import java.util.List;
 public class XJdbc {
 
     private static Connection connection;
+   
+    private static String driver;
+    private static String dburl;
+    private static String username;
+    private static String password;
 
     /**
      * Mở kết nối nếu chưa mở hoặc đã đóng
      *
      * @return Kết nối đã sẵn sàng
      */
+
     public static Connection openConnection() {
-        var driver = "org.mariadb.jdbc.Driver";
-        var dburl = "jdbc:mariadb://yeume-enterprise.edu.vn:3306/yeumeent_polycafe";
-        var username = "yeumeent_czvh_polycafe";
-        var password = "Concacgivay@123";
-        try {
-            if (!XJdbc.isReady()) {
-                Class.forName(driver);
-                connection = DriverManager.getConnection(dburl, username, password);
-            }
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return connection;
+
+    	try (InputStream in = XJdbc.class.getResourceAsStream("/db.properties")) {
+    		Properties p = new Properties();
+    		p.load(in);
+    		driver = p.getProperty("db.driver");
+    		dburl = p.getProperty("db.url");
+    		username = p.getProperty("db.user");
+    		password = p.getProperty("db.pass");
+    		Class.forName(driver);
+
+    		try {
+    			if (!XJdbc.isReady()) {
+    				Class.forName(driver);
+    				connection = DriverManager.getConnection(dburl, username, password);
+    			}
+    		} catch (ClassNotFoundException | SQLException e) {
+    			throw new RuntimeException(e);
+    		}
+    		return connection;
+    	} catch (Exception e) {
+    		throw new RuntimeException(e);
+    	}
     }
 
     /**
@@ -225,25 +243,25 @@ public class XJdbc {
         }
         return stmt;
     }
-
-    public static void main(String[] args) {
-        demo1();
-        demo2();
-        demo3();
-    }
-
-    private static void demo1() {
-        String sql = "SELECT * FROM Drinks WHERE UnitPrice BETWEEN ? AND ?";
-        var rs = XJdbc.executeQuery(sql, 1.5, 5.0);
-    }
-
-    private static void demo2() {
-        String sql = "SELECT max(UnitPrice) FROM Drinks WHERE UnitPrice > ?";
-        var maxPrice = XJdbc.getValue(sql, 1.5);
-    }
-
-    private static void demo3() {
-        String sql = "DELETE FROM Drinks WHERE UnitPrice < ?";
-        var count = XJdbc.executeUpdate(sql, 0.0);
-    }
+//
+//    public static void main(String[] args) {
+//        demo1();
+//        demo2();
+//        demo3();
+//    }
+//
+//    private static void demo1() {
+//        String sql = "SELECT * FROM Drinks WHERE UnitPrice BETWEEN ? AND ?";
+//        var rs = XJdbc.executeQuery(sql, 1.5, 5.0);
+//    }
+//
+//    private static void demo2() {
+//        String sql = "SELECT max(UnitPrice) FROM Drinks WHERE UnitPrice > ?";
+//        var maxPrice = XJdbc.getValue(sql, 1.5);
+//    }
+//
+//    private static void demo3() {
+//        String sql = "DELETE FROM Drinks WHERE UnitPrice < ?";
+//        var count = XJdbc.executeUpdate(sql, 0.0);
+//    }
 }
