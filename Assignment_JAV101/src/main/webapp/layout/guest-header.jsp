@@ -14,7 +14,7 @@
                     <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/category?id=PL">Pháp luật</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/category?id=VH">Văn hóa</a></li>
                     <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/category?id=SK">Thể thao</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-warning text-dark" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
+                    <li class="nav-item"><a class="btn nav-link text-white" href="${pageContext.request.contextPath}/login">Đăng nhập</a></li>
                 </ul>
             </div>
         </div>
