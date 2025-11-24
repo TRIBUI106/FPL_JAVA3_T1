@@ -62,7 +62,6 @@ public class StaffServlet extends HttpServlet {
 			File dir = new File(request.getServletContext().getRealPath("/files"));
 			if(!dir.exists()) {
 				dir.mkdir();
-				//System.out.print(request.getServletContext() + "anhtu");
 			}
 			
 			Part photo = request.getPart("photo_file");

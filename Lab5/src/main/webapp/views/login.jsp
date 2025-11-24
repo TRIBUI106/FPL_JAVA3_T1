@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Login</title>
 </head>
 <link
@@ -126,7 +126,7 @@
 <body>
 	<h1>Login</h1>
 	<mark style="color: red;">${message}</mark>
-	<form action="/Lab5_java3_fall2024/login" method="post">
+	<form action="<%=request.getContextPath() %>//login" method="post">
 		<div class="input-group mb-3">
 			<span class="input-group-text" id="basic-addon1">Username </span> 
 			<input name="username" value="${username}"
@@ -147,7 +147,7 @@
 		  <button type="submit" class="button">Login</button>
 		</div>
 	</form>
-	<a href="/Lab5_java3_fall2024">trang chủ</a>
+	<a href="<%=request.getContextPath() %>/">Trang chủ</a>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

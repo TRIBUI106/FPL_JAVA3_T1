@@ -12,7 +12,7 @@
 <a href="add">bai2 - beanultil </a> ||
 <a href="upload">bai3 - upload</a> ||
 <a href="mail">bai4 - gởi mail </a> ||
-<a href="/Lab32spring2024java4">trang chủ</a>
+<a href="<%=request.getContextPath()%>">trang chủ</a>
 <hr/>
 </body>
 </html>

@@ -90,7 +90,7 @@
     <h1>Send Mail</h1>
     <mark>${message}</mark>
 
-    <form action="/Lab5_java3_fall2024/mail" method="post" enctype="multipart/form-data">
+    <form action="<%=request.getContextPath() %>/mail" method="post" enctype="multipart/form-data">
 
         <div class="group">
             <label class="label">From</label>
@@ -124,7 +124,7 @@
     </form>
 
     <br>
-    <a href="/Lab5_java3_fall2024">Trang chủ</a>
+    <a href="<%=request.getContextPath() %>/">Trang chủ</a>
 
 </body>
 </html>

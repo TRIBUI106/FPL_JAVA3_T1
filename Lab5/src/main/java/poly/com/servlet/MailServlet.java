@@ -61,7 +61,7 @@ public class MailServlet extends HttpServlet {
 
             // Message
             Message msg = new MimeMessage(s);
-            msg.setFrom(new InternetAddress("leanhtu222353@gmail.com"));
+            msg.setFrom(new InternetAddress(SMTP_Password.mail));
 
             msg.setRecipients(Message.RecipientType.TO, 
                 InternetAddress.parse(request.getParameter("to")));
