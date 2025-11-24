@@ -1,156 +1,87 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+        .btn-login {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 40px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(79, 209, 197, 0.4);
+        }
+        h1 {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+    </style>
 </head>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-	crossorigin="anonymous">
-	<style>
-		body {
-			text-align: center;
-			background: #E6E2C3;
-			color: #1C315E;
-		}
-		form {
-			width: 30%;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		h1 {
-			color: #1C315E;
-			margin: 2rem 0;
-		}
-		.input-group-text {
-			color: #E6E2C3;
-			background: #88A47C;
-		}
-		.form-control {
-			color: #E6E2C3;
-			background: #88A47C;
-		}
-		.wrap {
-		  height: 100%;
-		  display: flex;
-		  align-items: center;
-		  justify-content: center;
-		}
-		
-		.button {
-		  min-width: 200px;
-		  min-height: 40px;
-		  font-family: 'Nunito', sans-serif;
-		  font-size: 22px;
-		  text-transform: uppercase;
-		  letter-spacing: 1.3px;
-		  font-weight: 700;
-		  color: #313133;
-		  background: #4FD1C5;
-		  background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
-		  border: none;
-		  border-radius: 1000px;
-		  box-shadow: 12px 12px 24px rgba(79,209,197,.64);
-		  transition: all 0.3s ease-in-out 0s;
-		  cursor: pointer;
-		  outline: none;
-		  position: relative;
-		  padding: 10px;
-		  }
-		
-		button::before {
-		content: '';
-		  border-radius: 1000px;
-		  min-width: calc(200px + 12px);
-		  min-height: calc(40px + 12px);
-		  border: 6px solid #00FFCB;
-		  box-shadow: 0 0 60px rgba(0,255,203,.64);
-		  position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  opacity: 0;
-		  transition: all .3s ease-in-out 0s;
-		}
-		
-		.button:hover, .button:focus {
-		  color: #313133;
-		  transform: translateY(-6px);
-		}
-		
-		button:hover::before, button:focus::before {
-		  opacity: 1;
-		}
-		
-		button::after {
-		  content: '';
-		  width: 30px; height: 30px;
-		  border-radius: 100%;
-		  border: 6px solid #00FFCB;
-		  position: absolute;
-		  z-index: -1;
-		  top: 50%;
-		  left: 50%;
-		  transform: translate(-50%, -50%);
-		  animation: ring 1.5s infinite;
-		}
-		
-		button:hover::after, button:focus::after {
-		  animation: none;
-		  display: none;
-		}
-		
-		@keyframes ring {
-		  0% {
-		    width: 30px;
-		    height: 30px;
-		    opacity: 1;
-		  }
-		  100% {
-		    width: 200px;
-		    height: 200px;
-		    opacity: 0;
-		  }
-		}
-		mark{
-			background: #E6E2C3;
-		}
-		.form-check-label {
-			float: left;
-		}
-	</style>
-<body>
-	<h1>Login</h1>
-	<mark style="color: red;">${message}</mark>
-	<form action="<%=request.getContextPath() %>//login" method="post">
-		<div class="input-group mb-3">
-			<span class="input-group-text" id="basic-addon1">Username </span> 
-			<input name="username" value="${username}"
-				type="text" class="form-control" placeholder=""
-				aria-label="Username" aria-describedby="basic-addon1">
-		</div>
-		<div class="input-group mb-3">
-			<span class="input-group-text" id="basic-addon1">Password </span> 
-			<input name="password" value="${password}"
-				type="password" class="form-control" placeholder=""
-				aria-label="Username" aria-describedby="basic-addon1">
-		</div>
-		<div class="form-check form-switch">
-		  <input name="remember" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-		  <label class="form-check-label" for="flexSwitchCheckDefault">Remember me?</label>
-		</div>
-		<div class="wrap">
-		  <button type="submit" class="button">Login</button>
-		</div>
-	</form>
-	<a href="<%=request.getContextPath() %>/">Trang chủ</a>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-		crossorigin="anonymous"></script>
+<body class="d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="login-card p-5">
+                    <div class="text-center mb-5">
+                        <i class="fas fa-user-lock fa-4x text-primary mb-4"></i>
+                        <h1 class="display-5">Welcome Back</h1>
+                        <p class="text-muted">Sign in to continue</p>
+                    </div>
+
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-danger text-center">${message}</div>
+                    </c:if>
+
+                    <form action="<%=request.getContextPath()%>/login" method="post">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Username</label>
+                            <input name="username" value="${username}" type="text" class="form-control form-control-lg rounded-pill" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Password</label>
+                            <input name="password" type="password" class="form-control form-control-lg rounded-pill" required>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input name="remember" class="form-check-input" type="checkbox" id="remember">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            <a href="#" class="text-decoration-none">Forgot password?</a>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-login text-white">
+                                <i class="fas fa-sign-in-alt me-2"></i> Login
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <a href="<%=request.getContextPath()%>/">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
