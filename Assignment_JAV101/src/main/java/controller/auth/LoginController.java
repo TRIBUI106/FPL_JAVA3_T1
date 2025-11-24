@@ -19,10 +19,10 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Giả lập DB (sẽ thay thật ở giai đoạn 3)
+        // Giáº£ láº­p DB (sáº½ thay tháº­t á»Ÿ giai Ä‘oáº¡n 3)
         if ("admin".equals(username) && "admin".equals(password)) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", new User("ADMIN", "Quản trị viên", true));
+            session.setAttribute("user", new User("ADMIN", "Quản Trị Viên", true));
             response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } else if ("pv001".equals(username) && "123".equals(password)) {
             HttpSession session = request.getSession();
@@ -35,7 +35,7 @@ public class LoginController extends HttpServlet {
     }
 }
 
-// Class tạm
+// Class táº¡m
 class User {
     String id, fullname;
     boolean isAdmin;
