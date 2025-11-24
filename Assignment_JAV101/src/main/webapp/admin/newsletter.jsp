@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -6,49 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Quản lý Newsletter - ABC News</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/admin-style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
-<body class="admin-body">
-<div class="row g-0">
-    <div class="col-md-3 admin-sidebar">
-        <!-- Copy sidebar giống dashboard.jsp -->
-        <div class="text-center py-4"><h4 class="text-white">ABC NEWS</h4></div>
-        <nav class="nav flex-column">
-            <a href="dashboard.jsp" class="nav-link">Trang chủ</a>
-            <a href="news.jsp" class="nav-link">Quản lý tin tức</a>
-            <a href="category-manager.jsp" class="nav-link">Quản lý loại tin</a>
-            <a href="user-manager.jsp" class="nav-link">Quản lý người dùng</a>
-            <a href="newsletter.jsp" class="nav-link active">Quản lý Newsletter</a>
-        </nav>
-    </div>
-    <div class="col-md-9">
-        <div class="admin-header text-white text-center py-4">
-            <h2>QUẢN LÝ ĐĂNG KÝ NHẬN TIN</h2>
-        </div>
+<body>
+<div class="d-flex min-vh-100">
+    <%@ include file="../layout/admin-sidebar.jsp" %>
+    <div class="flex-grow-1 bg-light">
+        <%@ include file="../layout/admin-header.jsp" %>
         <div class="container my-5">
-            <div class="admin-content">
-                <table class="table table-striped">
-                    <thead class="table-dark">
-                        <tr><th>STT</th><th>Email</th><th>Trạng thái</th><th>Thao tác</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>nguyenvana@gmail.com</td>
-                            <td><span class="badge bg-success">Đang hoạt động</span></td>
-                            <td><button class="btn btn-danger btn-sm">Hủy</button></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>abc123@gmail.com</td>
-                            <td><span class="badge bg-success">Đang hoạt động</span></td>
-                            <td><button class="btn btn-danger btn-sm">Hủy</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <h2 class="text-primary fw-bold mb-4">QUẢN LÝ ĐĂNG KÝ NHẬN TIN</h2>
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr><th>STT</th><th>Email</th><th>Trạng thái</th><th>Hành động</th></tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${listNewsletters}" var="n" varStatus="loop">
+                    <tr>
+                        <td>${loop.count}</td>
+                        <td>${n.email}</td>
+                        <td><span class="badge bg-success">Đang hoạt động</span></td>
+                        <td><a href="${pageContext.request.contextPath}/admin/newsletter?action=delete&id=${n.id}" class="btn btn-danger btn-sm" onclick="return confirm('Hủy đăng ký này?')">Hủy</a></td>
+                    </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
