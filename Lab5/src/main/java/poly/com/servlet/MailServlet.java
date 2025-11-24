@@ -23,6 +23,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
+import poly.com.model.SMTP_Password;
+
 @MultipartConfig
 @WebServlet("/mail")
 public class MailServlet extends HttpServlet {
@@ -51,8 +53,8 @@ public class MailServlet extends HttpServlet {
                 @Override
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(
-                        "leanhtu222353@gmail.com",
-                        "aknnhtwmatvnhrvi"
+                        SMTP_Password.mail,
+                        SMTP_Password.password
                     );
                 }
             });
