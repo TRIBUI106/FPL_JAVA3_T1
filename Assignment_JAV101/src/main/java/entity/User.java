@@ -90,6 +90,10 @@ public class User {
 	public void setRole(Boolean role) {
 		this.role = role;
 	}
+	
+	public boolean isAdmin() {
+		return role != null && role;
+	}
 
     
     
