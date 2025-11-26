@@ -14,7 +14,7 @@ public class RegisterDAO {
 		return email != null && EMAIL_PATTERN.matcher(email).matches();
 	}
 
-	public boolean register(String id, String password, String name, String email) {
+	public boolean register(String id, String password, String fullname, String email) {
 
 		if (!isValidEmail(email)) {
 			return false;
@@ -36,8 +36,8 @@ public class RegisterDAO {
         }
 		
 		// Role mặc định khi đăng ký là reporter
-        String insertSql = "INSERT INTO USERS (Id, Password, Name, Email, Role) VALUES (?, ?, ?, ?, ?)";
-        int rows = XJdbc.executeUpdate(insertSql, id, password, name, email, 0);
+        String insertSql = "INSERT INTO USERS (Id, Password, fullname, Email, Role) VALUES (?, ?, ?, ?, ?)";
+        int rows = XJdbc.executeUpdate(insertSql, id, password, fullname, email, 0);
         
 		// 3. Trả về true nếu insert thành công
 		return rows > 0;
