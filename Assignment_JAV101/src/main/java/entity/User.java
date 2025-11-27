@@ -14,6 +14,14 @@ public class User {
 
     public User() {}
 
+	public User(String id, String password) {
+		super();
+		this.id = id;
+		this.password = password;
+	}
+
+
+
 	public User(String id, String password, String fullname, LocalDate birthday, Boolean gender, String mobile,
 			String email, Boolean role) {
 		super();
