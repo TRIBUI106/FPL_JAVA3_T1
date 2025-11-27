@@ -1,35 +1,32 @@
-// dao/LoginDAO.java
 package dao;
 
 import entity.User;
 import utils.XJdbc;
-
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginDAO {
-	
-	String checkUserExist = "SELECT 1 FROM USERS where Id = ?";
-	String getUserSQL = "SELECT id, password FROM USERS WHERE id = ?";
+
+    private static final String LOGIN_SQL = 
+        "SELECT * FROM USERS WHERE Id = ? AND Password = ?";
 
     public User login(String id, String password) {
-    	
-    	try {
-    		ResultSet rs = XJdbc.executeQuery(checkUserExist, id);
-        	
-            if ( rs.next() ) {
-            	ResultSet userRs = XJdbc.executeQuery(getUserSQL, id);
-            	User u = new User(userRs.getString("Id"),userRs.getString("password"));
-            	return u;
+        try {
+            ResultSet rs = XJdbc.executeQuery(LOGIN_SQL, id, password);
+            if (rs.next()) {
+                User u = new User();
+                u.setId(rs.getString("Id"));
+                u.setPassword(rs.getString("Password"));
+                u.setFullname(rs.getString("Fullname"));
+                u.setBirthday(rs.getDate("Birthday") != null ? rs.getDate("Birthday").toLocalDate() : null);
+                u.setGender(rs.getBoolean("Gender"));
+                u.setMobile(rs.getString("Mobile"));
+                u.setEmail(rs.getString("Email"));
+                u.setRole(rs.getBoolean("Role"));
+                return u;
             }
-    	} catch (SQLException e) {
-    		e.printStackTrace();
-    		return null;
-    	}
-		return null;
-    	
-    	
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
