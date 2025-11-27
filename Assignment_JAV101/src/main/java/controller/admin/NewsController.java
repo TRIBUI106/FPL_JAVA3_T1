@@ -1,14 +1,17 @@
 package controller.admin;
 
 import entity.News;
+import entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import entity.Category;
 
 import dao.NewsDAO;
 
@@ -35,6 +38,10 @@ public class NewsController extends HttpServlet {
 
 		List<News> list = dao.getAll();
 		req.setAttribute("listNews", list);
+
+		List<Category> categories = dao.getAllCate();
+		req.setAttribute("categories", categories);
+
 		req.getRequestDispatcher("/admin/news.jsp").forward(req, resp);
 	}
 
@@ -65,8 +72,12 @@ public class NewsController extends HttpServlet {
 		n.setTitle(title);
 		n.setContent(content);
 		n.setImage("uploads/" + fileName); // lưu đường dẫn file
-		n.setPostedDate(LocalDate.now());
-		n.setAuthor((String) req.getSession().getAttribute("userId"));
+		n.setPostedDate(Date.valueOf(LocalDate.now()));
+		// Lấy user từ session
+		User currentUser = (User) req.getSession().getAttribute("user");
+		if (currentUser != null) {
+			n.setAuthor(currentUser.getId());
+		}
 		n.setCategoryId(categoryId);
 		n.setHome(home);
 

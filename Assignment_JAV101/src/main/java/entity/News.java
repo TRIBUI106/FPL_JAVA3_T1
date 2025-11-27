@@ -1,13 +1,13 @@
 package entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class News {
     private String id;
     private String title;
     private String content;
     private String image;
-    private LocalDate postedDate;
+    private Date postedDate;
     private String author;      // dùng Id của User, Servlet không dùng @ManyToOne
     private int viewCount;
     private String categoryId;  // Id Category
@@ -15,7 +15,7 @@ public class News {
 
     public News() {}
 
-	public News(String id, String title, String content, String image, LocalDate postedDate, String author,
+	public News(String id, String title, String content, String image, Date postedDate, String author,
 			int viewCount, String categoryId, boolean home) {
 		super();
 		this.id = id;
@@ -61,11 +61,11 @@ public class News {
 		this.image = image;
 	}
 
-	public LocalDate getPostedDate() {
+	public Date getPostedDate() {
 		return postedDate;
 	}
 
-	public void setPostedDate(LocalDate postedDate) {
+	public void setPostedDate(Date postedDate) {
 		this.postedDate = postedDate;
 	}
 

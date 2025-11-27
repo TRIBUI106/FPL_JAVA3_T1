@@ -1,5 +1,6 @@
 package dao;
 
+import entity.Category;
 import entity.News;
 import utils.XJdbc;
 import java.util.List;
@@ -13,6 +14,14 @@ public class NewsDAO {
 			+ "ViewCount = ?, CategoryId = ?, Home = ? WHERE Id = ?";
 	private static final String DELETE_SQL = "DELETE FROM NEWS WHERE Id = ?";
 	private static final String SELECT_BY_ID = "SELECT * FROM NEWS WHERE Id = ?";
+
+	// Để tạm load
+	private static final String SELECT_ALL_CATE = "SELECT * FROM CATEGORIES ORDER BY Name";
+
+	// Cái này để tạm
+	public List<Category> getAllCate() {
+		return XJdbc.getBeanList(Category.class, SELECT_ALL_CATE);
+	}
 
 	public List<News> getAll() {
 		return XJdbc.getBeanList(News.class, SELECT_ALL);

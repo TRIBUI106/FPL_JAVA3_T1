@@ -64,25 +64,40 @@
 				<form action="${pageContext.request.contextPath}/admin/news"
 					method="post" enctype="multipart/form-data">
 					<div class="modal-header">
-						<h5 class="modal-title">Thêm tin tức mới</h5>
+						<h5 class="modal-title">
+							<c:choose>
+								<c:when test="${cat != null}">Sửa tin tức</c:when>
+								<c:otherwise>Thêm tin tức mới</c:otherwise>
+							</c:choose>
+						</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 					<div class="modal-body">
-						<input name="id" class="form-control mb-3" placeholder="Mã tin"
-							required> <input name="title" class="form-control mb-3"
-							placeholder="Tiêu đề" required>
+						<!-- hidden action -->
+						<input type="hidden" name="action"
+							value="${cat != null ? 'update' : ''}"> <input name="id"
+							class="form-control mb-3" placeholder="Mã tin"
+							value="${cat != null ? cat.id : ''}" required> <input
+							name="title" class="form-control mb-3" placeholder="Tiêu đề"
+							value="${cat != null ? cat.title : ''}" required>
+
 						<textarea name="content" class="form-control mb-3" rows="4"
-							placeholder="Nội dung"></textarea>
+							placeholder="Nội dung">${cat != null ? cat.content : ''}</textarea>
+
 						<input type="file" name="image" class="form-control mb-3"
-							accept="image/*" required> <select name="categoryId"
-							class="form-select mb-3">
-							<option value="TT">Thời sự</option>
-							<option value="KT">Kinh tế</option>
-							<!-- Thêm các loại khác -->
+							accept="image/*" ${cat == null ? 'required' : ''}> <select
+							name="categoryId" class="form-select mb-3">
+							<c:forEach items="${categories}" var="c">
+								<option value="${c.id}"
+									${cat != null && cat.categoryId == c.id ? 'selected' : ''}>
+									${c.name}</option>
+							</c:forEach>
 						</select>
+
 						<div class="form-check">
-							<input type="checkbox" name="home" class="form-check-input">
-							<label>Hiện trên trang chủ</label>
+							<input type="checkbox" name="home" class="form-check-input"
+								${cat != null && cat.home ? 'checked' : ''}> <label>Hiện
+								trên trang chủ</label>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -94,6 +109,17 @@
 			</div>
 		</div>
 	</div>
+
+	<c:if test="${cat != null}">
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				var editModal = new bootstrap.Modal(document
+						.getElementById('addModal'));
+				editModal.show();
+			});
+		</script>
+	</c:if>
+
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
