@@ -8,23 +8,51 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/category")
+@WebServlet(urlPatterns = {"/category", "/init-app"}) 
+@MultipartConfig
 public class CategoryController extends HttpServlet {
 
-    private final CategoryDAO categoryDAO = new CategoryDAO();
+    private static final CategoryDAO categoryDAO = new CategoryDAO();
+    private static boolean initialized = false; 
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        loadCategoriesToApplicationScope();
+    }
+
+   
+    private synchronized void loadCategoriesToApplicationScope() {
+        if (initialized) return; 
+
+        ServletContext app = getServletContext();
+        List<Category> categories = categoryDAO.getAll();
+        app.setAttribute("categories", categories);
+        initialized = true;
+
+        System.out.println("ĐÃ LOAD " + categories.size() + " DANH MỤC KHI KHỞI ĐỘNG ỨNG DỤNG");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // THÊM 4 DÒNG NÀY LÀ XONG LUÔN – LOAD MENU TỪ DB
-        List<Category> categories = categoryDAO.getAll();
-        request.getServletContext().setAttribute("categories", categories);
+       
+        if (!initialized) {
+            loadCategoriesToApplicationScope();
+        }
 
         String id = request.getParameter("id");
 
+        
+        if (request.getRequestURI().endsWith("/init-app")) {
+            response.sendRedirect(request.getContextPath() + "/home");
+            return;
+        }
+
+        
         Category cat = null;
-        if (id != null) {
+        if (id != null && !id.trim().isEmpty()) {
             cat = categoryDAO.findById(id);
         }
 

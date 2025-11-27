@@ -13,15 +13,20 @@
     <div class="container my-5">
         <div class="row">
             <div class="col-lg-8">
+            
+            <%@ include file="../layout/recent-viewed.jsp" %>
                 <article class="bg-white p-5 rounded shadow-sm">
-                    <h1 class="text-primary fw-bold mb-4">TP.HCM mưa lớn, nhiều tuyến đường ngập sâu</h1>
-                    <p class="text-muted mb-4"><i class="bi bi-person"></i> Nguyễn Văn A • 24/11/2025 • Lượt xem: 12,456</p>
-                    <img src="https://via.placeholder.com/800x450" class="img-fluid rounded mb-4" alt="news">
-                    <div class="lead fs-5 text-justify">
-                        Nội dung bản tin chi tiết dài 800-1000 từ ở đây...<br><br>
-                        (Cậu có thể copy 1 bài báo thật để dán vào)
-                    </div>
-                </article>
+				    <h1 class="text-primary fw-bold mb-4">${title}</h1>
+				    <p class="text-muted mb-4">
+				        ABC News • ${date} • Lượt xem: 12,456
+				    </p>
+				    
+				    <img src="${image}" class="img-fluid rounded mb-4" alt="${title}">
+				    
+				    <div class="lead fs-5 text-justify">
+				        ${content}
+				    </div>
+				</article>
             </div>
             <div class="col-lg-4">
                 <!-- Sidebar giống home.jsp -->
