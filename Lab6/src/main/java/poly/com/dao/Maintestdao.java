@@ -14,7 +14,7 @@ public class Maintestdao {
 		//Dedao.updateDepartment("001", "Lê Anh Tú 123", "Lê Anh Tú");
 		//Dedao.findDepartmentById("007");
 		//Dedao.addDepartmentStore("007", "Đàm Vĩnh Hưng", "VH");
-		Dedao.printAllDepartments();
+		Dedao.selectAll();
 	}
 
 }

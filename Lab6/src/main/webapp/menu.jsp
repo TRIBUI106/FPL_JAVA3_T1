@@ -5,22 +5,54 @@
 <fmt:setLocale value="${sessionScope.Lang}" />
 <fmt:setBundle basename="i18n/global" />
 
-
-<c:url var="homeUrl" value="/admin.jsp"/>
-<c:url var="aboutUrl" value="/lienhe.jsp"/>
-<c:url var="deptUrl" value="/Departments"/>
-<c:url var="userUrl" value="/User/nguoidung.jsp"/>
-<c:url var="logoutUrl" value="/logout"/>
+<style>
+    nav {
+        background: linear-gradient(90deg, #e74c3c, #c0392b);
+        padding: 15px 50px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 10px 20px;
+        border-radius: 30px;
+        transition: all 0.3s;
+        margin: 0 5px;
+    }
+    nav a:hover {
+        background: rgba(255,255,255,0.2);
+        transform: translateY(-2px);
+    }
+    .lang-switch {
+        float: right;
+        margin-top: 8px;
+    }
+    .lang-switch a {
+        background: rgba(255,255,255,0.2);
+        padding: 8px 15px !important;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+    .lang-switch a:hover {
+        background: white;
+        color: #e74c3c !important;
+    }
+    hr { border: 1px solid #eee; margin: 0; }
+</style>
 
 <nav>
-    <a href="${homeUrl}"><fmt:message key="menu.home"/></a>||
-    <a href="${aboutUrl}"><fmt:message key="menu.about"/></a>||
-    <a href="${deptUrl}"><fmt:message key="menu.department"/></a>||
-    <a href="${userUrl}"><fmt:message key="menu.user"/></a>||
-    <a href="${logoutUrl}"><fmt:message key="menu.logout"/></a>
+    <a href="${pageContext.request.contextPath}/admin.jsp">Trang Chủ</a> |
+    <a href="${pageContext.request.contextPath}/lienhe.jsp">Liên Hệ</a> |
+    <a href="${pageContext.request.contextPath}/Departments">Phòng Ban</a> |
+    <a href="${pageContext.request.contextPath}/User">Người Dùng</a> |
+    <a href="${pageContext.request.contextPath}/logout">Đăng Xuất</a>
 
-    <div class="lang-switch" style="margin-left:auto;">
-        <a href="?lang=vi"> TIẾNG VIỆT </a> | <a href="?lang=en"> ENLISH</a>
+    <div class="lang-switch">
+        <a href="?lang=vi">VIỆT NAM</a> |
+        <a href="?lang=en">ENGLISH</a>
     </div>
 </nav>
-<hr/>

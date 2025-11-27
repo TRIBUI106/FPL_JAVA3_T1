@@ -42,7 +42,7 @@ public class DeparmentsController extends HttpServlet {
 
         } else if (uri.contains("delete"))
         {
-        	DeparmentsDao.delete(id)
+        	DeparmentsDao.delete(id);
             System.out.println("Xóa thành công!");
 
         } else if (uri.contains("find")) 
