@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import poly.com.dao.UserDao;
 import poly.com.model.User;
 @WebServlet({"/login","/admin"})
-public class Loginservlet extends HttpServlet 
+public class LoginServlet extends HttpServlet 
 {
 
 	@Override
