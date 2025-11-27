@@ -25,7 +25,7 @@
                             <button type="submit" class="btn btn-primary btn-lg w-100">ĐĂNG NHẬP</button>
                         </form>
                         <div class="mt-4">
-                            <a href="${pageContext.request.contextPath}/guest/home.jsp" class="text-muted">← Quay về trang chủ</a>
+                            <a href="${pageContext.request.contextPath}/" class="text-muted">← Quay về trang chủ</a>
                         </div>
                     </div>
                 </div>
