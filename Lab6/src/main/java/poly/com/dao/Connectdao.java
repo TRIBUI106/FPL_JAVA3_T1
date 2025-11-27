@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class Connectdao
 {
 	protected static Connection conn;
-	private static final String URL = "jdbc:mariadb://yeume-enterprise.edu.vn:3306;databaseName=yeumeent_dihoc";
+	private static final String URL = "jdbc:mariadb://yeume-enterprise.edu.vn:3306/yeumeent_dihoc";
 	private static final String USER = "yeumeent_dihoc";
 	private static final String PASS = "Caigivaytroi@123"; 
 
