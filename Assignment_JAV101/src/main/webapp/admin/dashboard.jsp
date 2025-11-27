@@ -15,7 +15,7 @@
         <h3 class="mb-5">ABC NEWS</h3>
         <nav class="nav flex-column gap-3">
             <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link text-white active"><i class="bi bi-house"></i> Trang chủ</a>
-            <a href="${pageContext.request.contextPath}/admin/news" class="nav-link text-white"><i class="bi bi-newspaper"></i> Quản lý tin tức</a>
+            <a href="${pageContext.request.contextPath}/admin/news.jsp" class="nav-link text-white"><i class="bi bi-newspaper"></i> Quản lý tin tức</a>
             <a href="${pageContext.request.contextPath}/admin/category" class="nav-link text-white"><i class="bi bi-tags"></i> Quản lý loại tin</a>
             <a href="${pageContext.request.contextPath}/admin/user" class="nav-link text-white"><i class="bi bi-people"></i> Quản lý người dùng</a>
             <a href="${pageContext.request.contextPath}/admin/newsletter" class="nav-link text-white"><i class="bi bi-envelope"></i> Newsletter</a>
