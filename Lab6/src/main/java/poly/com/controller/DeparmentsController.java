@@ -18,7 +18,7 @@ public class DeparmentsController extends HttpServlet {
 	protected void deleteDepartments(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException
    	{
    	  String idToDelete = request.getParameter("id");
-         DeparmentsDao.deleteDepartment(idToDelete);
+         DeparmentsDao.delete(idToDelete);
   
    	} 
 	   
@@ -42,12 +42,12 @@ public class DeparmentsController extends HttpServlet {
 
         } else if (uri.contains("delete"))
         {
-        	DeparmentsDao.deleteDepartment(id);
+        	DeparmentsDao.delete(id)
             System.out.println("Xóa thành công!");
 
         } else if (uri.contains("find")) 
         {
-            Department dept = DeparmentsDao.findDepartmentById1(req.getParameter("txttim"));
+            Department dept = DeparmentsDao.findById(req.getParameter("txttim"));
             if (dept != null) {
                 req.setAttribute("departmentEdit", dept);
             }
@@ -73,7 +73,7 @@ public class DeparmentsController extends HttpServlet {
             if (idStr != null) 
             {
                            // Tìm phòng ban theo id
-                Department dept = dao.findDepartmentById1(idStr);
+                Department dept = dao.findById(idStr);
                 // Gửi thông tin phòng ban lên JSP để hiển thị trong form
                 req.setAttribute("departmentEdit", dept);
                            
