@@ -8,10 +8,9 @@ public class Connectdao
 	protected static Connection conn;
 	private static final String URL = "jdbc:mariadb://yeume-enterprise.edu.vn:3306;databaseName=yeumeent_dihoc";
 	private static final String USER = "yeumeent_dihoc";
-	private static final String PASS = "Caigivaytroi@123"; // pass cậu đặt ở docker
+	private static final String PASS = "Caigivaytroi@123"; 
 
 	public static Connection getConnection() throws Exception {
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 		return DriverManager.getConnection(URL, USER, PASS);
 	}
 
