@@ -16,8 +16,10 @@
     <div class="container my-5">
         <div class="row g-4">
             <div class="col-lg-4">
+            
+            <%@ include file="../layout/recent-viewed.jsp" %>
                 <div class="sidebar-box mb-4">
-                    <h5 class="bg-danger text-white p-3 rounded-top mb-0"><i class="bi bi-fire"></i> 5 bản tin được xem nhiều</h5>
+                    <h5 class="bg-danger text-white p-3 rounded-top mb-0"><i class="bi bi-fire"></i> Đã xem gần đây</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><a href="${pageContext.request.contextPath}/detail?id=1" class="text-danger fw-bold">TP.HCM mưa lớn, nhiều tuyến đường ngập sâu</a></li>
                         <li class="list-group-item"><a href="#">Việt Nam vô địch SEA Games 33</a></li>
