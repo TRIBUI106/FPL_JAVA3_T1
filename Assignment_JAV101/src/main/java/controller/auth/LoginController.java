@@ -12,7 +12,7 @@ import entity.User;
 public class LoginController extends HttpServlet {
 
     private final LoginDAO loginDAO = new LoginDAO();
-
+r
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -21,7 +21,7 @@ public class LoginController extends HttpServlet {
         if (session.getAttribute("auth") != null) {
             response.sendRedirect(request.getContextPath() + "/guest/home.jsp");
             return;
-        }
+        } 
         request.getRequestDispatcher("/auth/login.jsp").forward(request, response);
     }
 
