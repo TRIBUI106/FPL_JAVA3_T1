@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import poly.com.dao.UserDao;
 import poly.com.model.User;
-@WebServlet({"/login","/admin"})
+@WebServlet({"/login","/admin", "/"})
 public class LoginServlet extends HttpServlet 
 {
 
