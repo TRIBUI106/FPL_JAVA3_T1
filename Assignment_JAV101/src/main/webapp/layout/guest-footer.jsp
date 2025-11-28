@@ -27,7 +27,7 @@
             <div class="col-lg-4 text-lg-end">
                 <p class="mb-1 opacity-75">&copy; 2025 ABC News</p>
                 <p class="mb-0">Thiết kế bởi 
-                    <strong class="text-warning">Bùi Đức Trí</strong>
+                    <strong class="text-warning">yeume2</strong>
                 </p>
             </div>
 
