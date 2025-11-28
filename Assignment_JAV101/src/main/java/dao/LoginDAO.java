@@ -15,9 +15,9 @@ public class LoginDAO {
             if (rs.next()) {
                 User u = new User();
                 u.setId(rs.getString("Id"));
-                u.setPassword(rs.getString("Password"));
-                u.setFullname(rs.getString("Fullname"));
-                u.setBirthday(rs.getDate("Birthday") != null ? rs.getDate("Birthday").toLocalDate() : null);
+                u.setPassword(rs.getString("Password")); 
+                u.setFullname(rs.getString("Fullname"));  
+                u.setBirthday(rs.getDate("Birthday")); 
                 u.setGender(rs.getBoolean("Gender"));
                 u.setMobile(rs.getString("Mobile"));
                 u.setEmail(rs.getString("Email"));

@@ -1,16 +1,16 @@
 package entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class User {
-    private String id;
+	private String id;
     private String password;
     private String fullname;
-    private LocalDate birthday;
-    private Boolean gender;
+    private Date birthday;
+    private Boolean gender;     
     private String mobile;
     private String email;
-    private Boolean role; // true = admin, false = reporter
+    private Boolean role;
 
     public User() {}
 
@@ -22,17 +22,15 @@ public class User {
 
 
 
-	public User(String id, String password, String fullname, LocalDate birthday, Boolean gender, String mobile,
-			String email, Boolean role) {
-		super();
-		this.id = id;
-		this.password = password;
-		this.fullname = fullname;
-		this.birthday = birthday;
-		this.gender = gender;
-		this.mobile = mobile;
-		this.email = email;
-		this.role = role;
+	public User(String id, String password, String fullname, Date birthday, Boolean gender,String mobile, String email, Boolean role) {
+	    this.id = id;
+	    this.password = password;
+	    this.fullname = fullname;
+	    this.birthday = birthday;
+	    this.gender = gender;
+	    this.mobile = mobile;
+	    this.email = email;
+	    this.role = role;
 	}
 
 	public String getId() {
@@ -59,13 +57,12 @@ public class User {
 		this.fullname = fullname;
 	}
 
-	public LocalDate getBirthday() {
-		return birthday;
+	public Date getBirthday() { 
+		return birthday; 
 	}
-
-	public void setBirthday(LocalDate birthday) {
-		this.birthday = birthday;
-	}
+    public void setBirthday(Date birthday) { 
+    	this.birthday = birthday; 
+    }
 
 	public Boolean getGender() {
 		return gender;
@@ -103,6 +100,16 @@ public class User {
 		return role != null && role;
 	}
 
+	
+	public String getGenderText() {
+        if (gender == null) return "Khác";
+        return gender ? "Nam" : "Nữ";
+    }
+
+    public String getBirthdayFormatted() {
+        if (birthday == null) return "";
+        return new java.text.SimpleDateFormat("dd/MM/yyyy").format(birthday);
+    }
     
     
 }
