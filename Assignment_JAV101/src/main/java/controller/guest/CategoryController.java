@@ -8,7 +8,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/category", "/init-app"}) 
+@WebServlet({"/category"}) 
 @MultipartConfig
 public class CategoryController extends HttpServlet {
 
