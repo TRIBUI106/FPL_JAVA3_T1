@@ -16,8 +16,12 @@ public class DashboardController extends HttpServlet {
             return;
         }
         
-        if ( (request.getContextPath() + "/" + request.getRequestURL()).equals("/admin") ) {
-        	response.sendRedirect("/admin/dashboard");
+        String uri = request.getRequestURI();
+        String contextPath = request.getContextPath();
+        
+        if (uri.equals(contextPath + "/admin") || uri.equals(contextPath + "/admin/")) {
+            response.sendRedirect(contextPath + "/admin/dashboard");
+            return;
         }
         
         request.getRequestDispatcher("/admin/dashboard.jsp").forward(request, response);
