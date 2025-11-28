@@ -1,44 +1,66 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<%@ page import="dao.CategoryDAO" %>
-<%@ page import="entity.Category" %>
-<%@ page import="java.util.List" %>
-
-
-<c:if test="${empty applicationScope.categories}">
-    <c:redirect url="/init-app"/>
-</c:if>
-
-<header class="bg-primary text-white shadow-sm">
-    <nav class="navbar navbar-expand-lg">
+<header class="shadow-sm border-bottom" style="background: linear-gradient(90deg, #0d6efd 0%, #003c9e 100%);">
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
         <div class="container">
-            <a class="navbar-brand fs-4 fw-bold" href="${pageContext.request.contextPath}/home">ABC NEWS</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+            <!-- Logo -->
+            <a class="navbar-brand fs-3 fw-bold tracking-wide" 
+               href="${pageContext.request.contextPath}/home"
+               style="letter-spacing: 1px;">
+                ABC NEWS
+            </a>
+
+            <!-- Toggle -->
+            <button class="navbar-toggler" type="button" 
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
+            <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto gap-3">
+
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-4 mt-3 mt-lg-0">
+
                     <li class="nav-item">
-                        <a class="nav-link text-white fw-bold" href="${pageContext.request.contextPath}/home">Trang chủ</a>
+                        <a class="nav-link text-white fs-6 fw-semibold" href="${pageContext.request.contextPath}/home">
+                            Trang chủ
+                        </a>
                     </li>
 
-                    <!-- HIỆN DANH MỤC TỪ APPLICATION SCOPE -->
+                    <!-- Categories -->
                     <c:forEach items="${applicationScope.categories}" var="cat">
                         <li class="nav-item">
-                            <a class="nav-link text-white" 
-                               href="${pageContext.request.contextPath}/category?id=${cat.id}">
+                            <a class="nav-link text-white-50 fs-6"
+                               href="${pageContext.request.contextPath}/category?id=${cat.id}"
+                               style="transition: 0.2s;">
                                 ${cat.name}
                             </a>
                         </li>
                     </c:forEach>
 
+                    <!-- Login -->
                     <li class="nav-item">
-                        <a class="btn nav-link text-white" href="${pageContext.request.contextPath}/login">Đăng nhập</a>
+                        <a class="btn btn-outline-light fw-semibold px-4 py-2 rounded-pill"
+                           href="${pageContext.request.contextPath}/login"
+                           style="transition: 0.25s;">
+                            Đăng nhập
+                        </a>
                     </li>
+
                 </ul>
             </div>
+
         </div>
     </nav>
 </header>
+
+<style>
+    .nav-link:hover {
+        color: #fff !important;
+        transform: translateY(-1px);
+    }
+    .btn-outline-light:hover {
+        background: #fff !important;
+        color: #0d6efd !important;
+        border-color: #fff !important;
+    }
+</style>
