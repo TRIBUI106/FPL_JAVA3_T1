@@ -4,7 +4,6 @@
 <!-- Không cần check nữa vì InitServlet đã load sẵn từ lúc khởi động -->
 <!-- Nếu vẫn muốn an toàn 200% thì để lại đoạn này cũng được (không sao) -->
 <c:if test="${empty applicationScope.categories}">
-    <jsp:include page="/init-app" />
 </c:if>
 
 <header class="shadow-sm" style="background: linear-gradient(90deg, #0d6efd, #003c9e);">

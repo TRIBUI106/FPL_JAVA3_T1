@@ -75,6 +75,11 @@
 			<version>1.5.12</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.chez1s</groupId>
+			<artifactId>PRO230_Assignment</artifactId>
+			<version>4.2.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

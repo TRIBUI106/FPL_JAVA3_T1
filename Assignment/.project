@@ -3,6 +3,7 @@
 	<name>Assignment</name>
 	<comment></comment>
 	<projects>
+		<project>Assignment_Java3</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
