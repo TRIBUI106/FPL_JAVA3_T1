@@ -7,7 +7,7 @@
 
 
 <c:if test="${empty applicationScope.categories}">
-    <c:redirect url="/init-app"/>
+    <jsp:include page="${pageContext.request.contextPath}/" />
 </c:if>
 
 <header class="shadow-sm" 
