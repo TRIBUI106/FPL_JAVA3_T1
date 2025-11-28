@@ -1,43 +1,27 @@
-<footer class="text-white mt-5" 
-        style="background: linear-gradient(90deg, #0a1930 0%, #102542 100%);">
-    
-    <div class="container py-5">
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 
-        <div class="row align-items-center">
+<footer class="text-white py-4" style="background: linear-gradient(90deg, #0a1930, #102542);">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
 
-            <!-- Newsletter -->
-            <div class="col-lg-8 mb-4 mb-lg-0">
-                <h4 class="fw-bold mb-3">Đăng ký nhận tin mới nhất</h4>
+        <!-- Form đăng ký -->
+        <form class="d-flex gap-2 mb-3 mb-md-0">
+            <input type="email" 
+                   class="form-control form-control-sm rounded-3" 
+                   placeholder="Nhập email của bạn">
+            <button class="btn btn-warning btn-sm fw-bold rounded-3">
+                ĐĂNG KÝ
+            </button>
+        </form>
 
-                <form class="row g-2">
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control form-control-lg rounded-3"
-                               placeholder="Nhập email của bạn">
-                    </div>
-
-                    <div class="col-sm-4">
-                        <button class="btn btn-warning btn-lg w-100 fw-bold rounded-3">
-                            Đăng ký
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Info -->
-            <div class="col-lg-4 text-lg-end">
-                <p class="mb-1 opacity-75">&copy; 2025 ABC News</p>
-                <p class="mb-0">Thiết kế bởi 
-                    <strong class="text-warning">yeume2</strong>
-                </p>
-            </div>
-
-        </div>
-
-        <hr class="border-secondary opacity-25 mt-4">
-
-        <div class="text-center small opacity-50 mt-3">
-            Tin tức chuẩn xác – Cập nhật liên tục – Uy tín hàng đầu Việt Nam
+        <!-- Credit -->
+        <div class="text-center text-md-end opacity-75">
+            <p class="mb-0">&copy; 2025 ABC News</p>
+            <p class="mb-0">Thiết kế bởi <strong class="text-warning">yeume2</strong></p>
         </div>
 
     </div>
+
+    <p class="text-center small opacity-50 mt-2 mb-0">
+        Tin tức chuẩn xác – Cập nhật liên tục – Uy tín hàng đầu
+    </p>
 </footer>
