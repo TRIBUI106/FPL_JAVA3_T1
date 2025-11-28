@@ -8,7 +8,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/admin/category", "/init-app"})
+@WebServlet({"/admin/category"})
 public class CategoryAdminController extends HttpServlet {
     private final CategoryDAO dao = new CategoryDAO();
 
