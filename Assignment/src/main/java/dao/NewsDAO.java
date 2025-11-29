@@ -14,7 +14,10 @@ public class NewsDAO {
 			+ "ViewCount = ?, CategoryId = ?, Home = ? WHERE Id = ?";
 	private static final String DELETE_SQL = "DELETE FROM NEWS WHERE Id = ?";
 	private static final String SELECT_BY_ID = "SELECT * FROM NEWS WHERE Id = ?";
-
+	//Này cho cái guest 
+	private static final String SELECT_HOME = "SELECT * FROM NEWS WHERE Home = 1 ORDER BY PostedDate DESC";
+	// Này cho 5 tin mới nhất
+	private static final String SELCT_NEWS_LATEST_5 = "SELECT * FROM NEWS ORDER BY PostedDate DESC LIMIT 5";
 	// Để tạm load
 	private static final String SELECT_ALL_CATE = "SELECT * FROM CATEGORIES ORDER BY Name";
 
@@ -26,7 +29,15 @@ public class NewsDAO {
 	public List<News> getAll() {
 		return XJdbc.getBeanList(News.class, SELECT_ALL);
 	}
-
+	
+	public List<News> getHomeNews() {
+	    return XJdbc.getBeanList(News.class, SELECT_HOME);
+	}
+	
+	public List<News> getLatestNews() {
+        return XJdbc.getBeanList(News.class, SELCT_NEWS_LATEST_5);
+    }
+	
 	public News findById(String id) {
 		return XJdbc.getSingleBean(News.class, SELECT_BY_ID, id);
 	}
