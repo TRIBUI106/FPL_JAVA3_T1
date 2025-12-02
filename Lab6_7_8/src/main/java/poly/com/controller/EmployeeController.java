@@ -6,12 +6,12 @@ import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import poly.com.dao.EmployeeDAO;
 import poly.com.dao.DeparmentsDao;
+import poly.com.dao.EmployeeDAO;
 import poly.com.model.Employee;
 import poly.com.model.Department;
 
-@WebServlet({"/Employees","/Employees/*"})
+@WebServlet({"/Employees","/Employees/add","/Employees/update","/Employees/delete","/Employees/edit","/Employees/find"})
 public class EmployeeController extends HttpServlet {
 
     @Override

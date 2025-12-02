@@ -48,7 +48,7 @@
     <a href="${pageContext.request.contextPath}/admin.jsp">Trang Chủ</a> |
     <a href="${pageContext.request.contextPath}/lienhe.jsp">Liên Hệ</a> |
     <a href="${pageContext.request.contextPath}/Departments">Phòng Ban</a> |
-    <a href="${pageContext.request.contextPath}/User">Người Dùng</a> |
+    <a href="${pageContext.request.contextPath}/Employees">Nhân Viên</a> |
     <a href="${pageContext.request.contextPath}/logout">Đăng Xuất</a>
 
     <div class="lang-switch">
