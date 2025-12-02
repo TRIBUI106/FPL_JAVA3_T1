@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Automation Test Suite">
+    <test name="Full Flow Test">
+        <classes>
+            <class name="selenium.LoginTest"/>
+            <class name="selenium.RegisterTest"/>
+            <class name="selenium.CategoryAdminTest"/>
+        </classes>
+    </test>
+</suite>
