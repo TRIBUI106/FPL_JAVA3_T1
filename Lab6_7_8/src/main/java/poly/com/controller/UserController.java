@@ -26,7 +26,7 @@ public class UserController extends HttpServlet {
 
         List<User> list = UserDao.selectAll();
         req.setAttribute("users", list);
-        req.getRequestDispatcher("/User/nguoidung.jsp").forward(req, resp);
+        req.getRequestDispatcher("/User/UserGUI.jsp").forward(req, resp);
     }
 
     @Override
