@@ -62,13 +62,14 @@
                     <label class="form-label">Ảnh</label>
                     <input type="text" name="photo" class="form-control" value="${employeeEdit.photo}" placeholder="Tên file ảnh">
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Giới tính</label>
-                    <select name="gender" class="form-select">
-                        <option value="1" ${employeeEdit.gender == 1 ? 'selected' : ''}>Nam</option>
-                        <option value="0" ${employeeEdit.gender == 0 ? 'selected' : ''}>Nữ</option>
-                    </select>
-                </div>
+                <!-- Phần form chọn giới tính -->
+				<div class="col-md-2">
+				    <label class="form-label">Giới tính</label>
+				    <select name="gender" class="form-select">
+				        <option value="true" ${employeeEdit.gender ? 'selected' : ''}>Nam</option>
+				        <option value="false" ${!employeeEdit.gender ? 'selected' : ''}>Nữ</option>
+				    </select>
+				</div>
                 <div class="col-md-3">
                     <label class="form-label">Ngày sinh</label>
                     <input type="date" name="birthday" class="form-control" value="${employeeEdit.birthday}">
@@ -121,7 +122,7 @@
                                 <td>${e.fullname}</td>
                                 <td>${e.password}</td>
                                 <td><img src="${pageContext.request.contextPath}/images/${e.photo}" class="photo-img" alt="photo"></td>
-                                <td>${e.gender == 1 ? 'Nam' : 'Nữ'}</td>
+								<td>${e.gender ? 'Nam' : 'Nữ'}</td>                                
                                 <td>${e.birthday}</td>
                                 <td>${e.salary}</td>
                                 <td>${e.departmentId}</td>

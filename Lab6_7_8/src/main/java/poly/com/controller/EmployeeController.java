@@ -24,7 +24,11 @@ public class EmployeeController extends HttpServlet {
         String fullname = req.getParameter("fullname");
         String photo = req.getParameter("photo");
         boolean gender = Boolean.parseBoolean(req.getParameter("gender"));
-        Date birthday = Date.valueOf(req.getParameter("birthday"));
+        String birthdayStr = req.getParameter("birthday");
+        Date birthday = new Date(2025, 12, 30);
+        if (birthdayStr != null && !birthdayStr.isEmpty()) {
+            birthday = Date.valueOf(birthdayStr);
+        }
         double salary = Double.parseDouble(req.getParameter("salary"));
         String dept = req.getParameter("departmentId");
 
@@ -65,6 +69,6 @@ public class EmployeeController extends HttpServlet {
         req.setAttribute("employees", empList);
         req.setAttribute("departments", deptList);
 
-        req.getRequestDispatcher("/Employees/EmployeeGui.jsp").forward(req, resp);
+        req.getRequestDispatcher("/Employees/EmployeeGUI.jsp").forward(req, resp);
     }
 }
