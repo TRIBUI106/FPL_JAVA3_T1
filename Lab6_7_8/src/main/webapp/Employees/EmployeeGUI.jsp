@@ -319,7 +319,7 @@
                         <input type="number" name="salary" 
                                value="${employeeEdit.salary}" 
                                placeholder="10000000" 
-                               step="1" 
+                               step="1000" 
                                min="0" 
                                required>
                     </div>
