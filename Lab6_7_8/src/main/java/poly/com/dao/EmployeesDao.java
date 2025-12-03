@@ -130,29 +130,30 @@ public class EmployeesDao extends Connectdao {
     // Tìm kiếm nhân viên theo tên (cho chức năng tìm kiếm)
     public static List<Employee> searchByName(String keyword) {
         List<Employee> list = new ArrayList<>();
-        String sql = "SELECT * FROM Employees WHERE Fullname LIKE ? ORDER BY Id";
-        try (Connection conn = Connectdao.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql = "SELECT * FROM Employees WHERE fullname LIKE ?";
+        
+        try (Connection conn = DB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            ps.setString(1, "%" + keyword + "%");
-            ResultSet rs = ps.executeQuery();
+            stmt.setString(1, "%" + keyword + "%");
+            ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
-                Employee emp = new Employee(
-                    rs.getString("Id"),
-                    rs.getString("Password"),
-                    rs.getString("Fullname"),
-                    rs.getString("Photo"),
-                    rs.getBoolean("Gender"),
-                    rs.getDate("Birthday"),
-                    rs.getDouble("Salary"),
-                    rs.getString("DepartmentId")
-                );
+                Employee emp = new Employee();
+                emp.setId(rs.getString("id"));
+                emp.setFullname(rs.getString("fullname"));
+                emp.setPassword(rs.getString("password"));
+                emp.setPhoto(rs.getString("photo"));
+                emp.setGender(rs.getBoolean("gender"));
+                emp.setBirthday(rs.getDate("birthday"));
+                emp.setSalary(rs.getDouble("salary"));
+                emp.setDepartmentId(rs.getString("departmentId"));
                 list.add(emp);
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        
         return list;
     }
 }

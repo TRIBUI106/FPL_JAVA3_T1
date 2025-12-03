@@ -73,16 +73,15 @@ public class EmployeesController extends HttpServlet {
             System.out.println("Xóa nhân viên thành công!");
             
         } else if (uri.contains("find")) {
-            String keyword = req.getParameter("txttim");
+            String keyword = req.getParameter("keyword"); // Sửa từ "txttim" thành "keyword"
             if (keyword != null && !keyword.trim().isEmpty()) {
-                // Tìm theo ID trước
-                Employee emp = EmployeesDao.findById(keyword);
-                if (emp != null) {
-                    req.setAttribute("employeeEdit", emp);
-                } else {
-                    // Nếu không tìm thấy theo ID thì tìm theo tên
-                    List<Employee> searchResults = EmployeesDao.searchByName(keyword);
-                    req.setAttribute("employees", searchResults);
+                // Tìm theo tên để ra list nhiều kết quả
+                List<Employee> searchResults = EmployeesDao.searchByName(keyword);
+                req.setAttribute("employees", searchResults);
+                
+                // Nếu không tìm thấy kết quả nào
+                if (searchResults == null || searchResults.isEmpty()) {
+                    req.setAttribute("message", "Không tìm thấy nhân viên với từ khóa: " + keyword);
                 }
             }
         }
@@ -133,6 +132,6 @@ public class EmployeesController extends HttpServlet {
         req.setAttribute("departments", departments);
         
         // Forward đến JSP
-        req.getRequestDispatcher("/Employees/EmployeeGui.jsp").forward(req, resp);
+        req.getRequestDispatcher("/EmployeeGui.jsp").forward(req, resp);
     }
 }

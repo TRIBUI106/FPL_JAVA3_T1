@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý nhân viên</title>
-    <jsp:include page="../menu.jsp"></jsp:include>
+    <jsp:include page="./menu.jsp"></jsp:include>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -360,7 +360,23 @@
         </div>
     </div>
 
-    <div class="card">
+		<div class="card 1row" style="padding: 3px; flex-direction: column;">
+			<form action="${pageContext.request.contextPath}/Employees/find"
+				method="post">
+				<input type="text" name="keyword"
+					placeholder="Nhập tên nhân viên...">
+				<button type="submit" class="btn btn-find">
+					<i class="fas fa-search"></i> Tìm kiếm
+				</button>
+			</form>
+
+			<c:if test="${not empty message}">
+				<p style="color: red; margin-top: 10px;">${message}</p>
+			</c:if>
+		</div>
+
+
+		<div class="card">
         <table>
             <thead>
                 <tr>
