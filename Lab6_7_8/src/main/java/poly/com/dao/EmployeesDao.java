@@ -132,7 +132,7 @@ public class EmployeesDao extends Connectdao {
         List<Employee> list = new ArrayList<>();
         String sql = "SELECT * FROM Employees WHERE fullname LIKE ?";
         
-        try (Connection conn = DB.getConnection();
+        try (Connection conn = Connectdao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, "%" + keyword + "%");

@@ -60,6 +60,48 @@
             background: #f8f9fa;
         }
         
+        /* Message Alert */
+        .message {
+            padding: 15px 20px;
+            margin: 20px 30px;
+            border-radius: 8px;
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Search Box */
+        .search-section {
+            padding: 30px;
+            background: white;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.2);
+        }
+        
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -84,6 +126,7 @@
         input[type=password],
         input[type=date],
         input[type=number],
+        input[type=file],
         select {
             width: 100%;
             padding: 12px 15px;
@@ -152,8 +195,6 @@
             border-collapse: separate;
             border-spacing: 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            overflow: hidden;
         }
         
         th {
@@ -171,6 +212,7 @@
             background: white;
             transition: background 0.3s;
             font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
         }
         
         tr:hover td {
@@ -179,6 +221,15 @@
         
         tr:nth-child(even) td {
             background: #f9f9f9;
+        }
+        
+        /* Photo Thumbnail */
+        .photo-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
         }
         
         .action {
@@ -255,9 +306,44 @@
 <div class="container">
     <h1><i class="fas fa-users"></i> Quản Lý Nhân Viên</h1>
 
+    <!-- Message Alert -->
+    <c:if test="${not empty message}">
+        <div class="card">
+            <div class="message">
+                <i class="fas fa-check-circle"></i> ${message}
+            </div>
+        </div>
+    </c:if>
+
+    <!-- Search Section -->
+    <div class="card">
+        <div class="search-section">
+            <h2 style="margin-bottom: 20px; color: var(--text);">
+                <i class="fas fa-search"></i> Tìm Kiếm Nhân Viên
+            </h2>
+            <form method="post" action="${pageContext.request.contextPath}/Employees/find">
+                <div class="search-box">
+                    <input type="text" 
+                           name="txttim" 
+                           placeholder="Nhập mã nhân viên hoặc tên để tìm kiếm..." 
+                           value="${param.txttim}">
+                    <button type="submit" class="btn btn-find">
+                        <i class="fas fa-search"></i> Tìm Kiếm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Employee Form -->
     <div class="card">
         <div class="form-group">
-            <form method="post" id="employeeForm">
+            <h2 style="margin-bottom: 20px; color: var(--text);">
+                <i class="fas fa-user-edit"></i> 
+                ${not empty employeeEdit ? 'Cập Nhật Nhân Viên' : 'Thêm Nhân Viên Mới'}
+            </h2>
+            
+            <form method="post" id="employeeForm" enctype="multipart/form-data">
                 <div class="form-grid">
                     <div class="form-field">
                         <label><i class="fas fa-id-card"></i> Mã nhân viên *</label>
@@ -286,9 +372,12 @@
                     
                     <div class="form-field">
                         <label><i class="fas fa-image"></i> Ảnh đại diện</label>
-                        <input type="text" name="photo" 
-                               value="${employeeEdit.photo}" 
-                               placeholder="avatar.jpg">
+                        <input type="file" name="photo" accept="image/*">
+                        <c:if test="${not empty employeeEdit.photo}">
+                            <small style="color: #666; margin-top: 5px; display: block;">
+                                Ảnh hiện tại: ${employeeEdit.photo}
+                            </small>
+                        </c:if>
                     </div>
                     
                     <div class="form-field">
@@ -360,76 +449,74 @@
         </div>
     </div>
 
-		<div class="card 1row" style="padding: 3px; flex-direction: column;">
-			<form action="${pageContext.request.contextPath}/Employees/find"
-				method="post">
-				<input type="text" name="keyword"
-					placeholder="Nhập tên nhân viên...">
-				<button type="submit" class="btn btn-find">
-					<i class="fas fa-search"></i> Tìm kiếm
-				</button>
-			</form>
-
-			<c:if test="${not empty message}">
-				<p style="color: red; margin-top: 10px;">${message}</p>
-			</c:if>
-		</div>
-
-
-		<div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Mã NV</th>
-                    <th>Họ tên</th>
-                    <th>Giới tính</th>
-                    <th>Ngày sinh</th>
-                    <th>Lương</th>
-                    <th>Phòng ban</th>
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:choose>
-                    <c:when test="${not empty employees}">
-                        <c:forEach var="emp" items="${employees}">
+    <!-- Employee List -->
+    <div class="card">
+        <div style="padding: 30px;">
+            <h2 style="margin-bottom: 20px; color: var(--text);">
+                <i class="fas fa-list"></i> Danh Sách Nhân Viên
+            </h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã NV</th>
+                        <th>Ảnh</th>
+                        <th>Họ tên</th>
+                        <th>Giới tính</th>
+                        <th>Ngày sinh</th>
+                        <th>Lương</th>
+                        <th>Phòng ban</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${not empty employees}">
+                            <c:forEach var="emp" items="${employees}">
+                                <tr>
+                                    <td><strong>${emp.id}</strong></td>
+                                    <td>
+                                        <img src="${pageContext.request.contextPath}/${emp.photo}" 
+                                             alt="Photo" 
+                                             class="photo-thumbnail"
+                                             onerror="this.src='${pageContext.request.contextPath}/uploads/default.jpg'">
+                                    </td>
+                                    <td>${emp.fullname}</td>
+                                    <td>
+                                        <span class="badge ${emp.gender ? 'badge-male' : 'badge-female'}">
+                                            ${emp.gender ? 'Nam' : 'Nữ'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <fmt:formatDate value="${emp.birthday}" pattern="dd/MM/yyyy"/>
+                                    </td>
+                                    <td class="salary">
+                                        <fmt:formatNumber value="${emp.salary}" type="number" groupingUsed="true"/> ₫
+                                    </td>
+                                    <td>${emp.departmentId}</td>
+                                    <td class="action">
+                                        <a href="${pageContext.request.contextPath}/Employees/edit?id=${emp.id}">
+                                            <i class="fas fa-edit"></i> Sửa
+                                        </a> |
+                                        <a href="${pageContext.request.contextPath}/Employees/delete?id=${emp.id}" 
+                                           onclick="return confirm('Xóa nhân viên ${emp.fullname}?')">
+                                            <i class="fas fa-trash"></i> Xóa
+                                        </a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
                             <tr>
-                                <td><strong>${emp.id}</strong></td>
-                                <td>${emp.fullname}</td>
-                                <td>
-                                    <span class="badge ${emp.gender ? 'badge-male' : 'badge-female'}">
-                                        ${emp.gender ? 'Nam' : 'Nữ'}
-                                    </span>
-                                </td>
-                                <td>
-                                    <fmt:formatDate value="${emp.birthday}" pattern="dd/MM/yyyy"/>
-                                </td>
-                                <td class="salary">
-                                    <fmt:formatNumber value="${emp.salary}" type="number" groupingUsed="true"/> ₫
-                                </td>
-                                <td>${emp.departmentId}</td>
-                                <td class="action">
-                                    <a href="${pageContext.request.contextPath}/Employees/edit?id=${emp.id}">
-                                        <i class="fas fa-edit"></i> Sửa
-                                    </a> |
-                                    <a href="${pageContext.request.contextPath}/Employees/delete?id=${emp.id}" 
-                                       onclick="return confirm('Xóa nhân viên ${emp.fullname}?')">
-                                        <i class="fas fa-trash"></i> Xóa
-                                    </a>
+                                <td colspan="8" class="no-data">
+                                    <i class="fas fa-inbox"></i> Chưa có nhân viên nào! Hãy thêm mới nhé
                                 </td>
                             </tr>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <tr>
-                            <td colspan="7" class="no-data">
-                                <i class="fas fa-inbox"></i> Chưa có nhân viên nào! Hãy thêm mới nhé
-                            </td>
-                        </tr>
-                    </c:otherwise>
-                </c:choose>
-            </tbody>
-        </table>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
