@@ -35,6 +35,8 @@ public class AdminAuthFilter implements Filter {
             return;
         }
         
+        // nếu k phải admin thì redirect vô news-management
+        
         if (!isLoggedIn) {
             res.sendRedirect(req.getContextPath() + "/login");
             return;
