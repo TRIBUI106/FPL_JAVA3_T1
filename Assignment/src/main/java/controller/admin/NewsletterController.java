@@ -14,11 +14,7 @@ public class NewsletterController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if (session.getAttribute("user") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
+       req.getRequestDispatcher("/admin/newsletter.jsp").forward(req, resp); 
 	}
 
 }
