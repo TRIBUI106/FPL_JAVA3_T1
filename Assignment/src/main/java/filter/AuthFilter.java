@@ -22,31 +22,38 @@ public class AuthFilter implements Filter {
         
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        
         HttpSession session = req.getSession(false);
         
-        User u = (User) session.getAttribute("user");        
-        boolean isAdmin = u.getRole();
-
-        boolean isLoggedIn = (session != null && u != null);
-        
-        // nếu k phải admin thì redirect vô news-management
-        
-        if (!isLoggedIn) {
+        // 1. Kiểm tra đã login chưa
+        if (session == null || session.getAttribute("user") == null) {
             res.sendRedirect(req.getContextPath() + "/login");
-            if (!isAdmin) {
-                res.sendRedirect(req.getContextPath() + "/home"); 
-                return;
-            } else {
-            	res.sendRedirect(req.getContextPath() + "/reporter");
-            }
+            return; 
         }
         
+        // 2. Lấy user và check quyền
+        User u = (User) session.getAttribute("user");
+        boolean isAdmin = u.getRole();
+        String requestURI = req.getRequestURI();
+        
+        // 3. Kiểm tra quyền theo đường dẫn
+        if (requestURI.contains("/admin/")) {
+            if (!isAdmin) {
+                res.sendRedirect(req.getContextPath() + "/reporter"); 
+                return;
+            }
+        } else if (requestURI.contains("/reporter/")) {
+             if (isAdmin) {
+                 res.sendRedirect(req.getContextPath() + "/admin/dashboard");
+                 return;
+             }
+        }
+        
+        // 4. Cho đi tiếp
         chain.doFilter(request, response);
     }
     
     @Override
     public void destroy() {
-    	// Cleanup 
+        // Cleanup 
     }
 }

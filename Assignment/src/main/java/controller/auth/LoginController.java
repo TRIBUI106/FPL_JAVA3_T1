@@ -49,8 +49,10 @@ public class LoginController extends HttpServlet {
                 // Redirect dựa trên quyền user nếu cần
                 if (user.isAdmin()) {
                     response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                } else if ( !user.isAdmin() ) {
+                	response.sendRedirect(request.getContextPath() + "/reporter/dashboard");
                 } else {
-                    response.sendRedirect(request.getContextPath() + "/guest/home.jsp");
+                    response.sendRedirect(request.getContextPath() + "/home");
                 }
                 return;
             } else {
