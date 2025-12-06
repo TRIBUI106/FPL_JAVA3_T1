@@ -7,12 +7,13 @@ import jakarta.servlet.Filter;
 
 import java.io.IOException;
 
+import entity.User;
+
 @WebFilter("/admin/*")
 public class AdminAuthFilter implements Filter {
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // Khởi tạo filter nếu cần
     }
     
     @Override
@@ -22,31 +23,28 @@ public class AdminAuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         
-        // Lấy session
         HttpSession session = req.getSession(false);
         
-        // Kiểm tra đã đăng nhập chưa
-        boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
+        User u = (User) session.getAttribute("user");        
+        boolean isAdmin = u.getRole();
+
+        boolean isLoggedIn = (session != null && u != null);
         
-        if (!isLoggedIn) {
-            // Chưa đăng nhập -> redirect về trang login
-            res.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
-        
-        // Kiểm tra role admin
-        String role = (String) session.getAttribute("role");
-        if (!"admin".equals(role)) {
+        if (!isAdmin) {
             res.sendRedirect(req.getContextPath() + "/home"); 
             return;
         }
         
-        // Nếu OK -> cho đi tiếp
+        if (!isLoggedIn) {
+            res.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+        
         chain.doFilter(request, response);
     }
     
     @Override
     public void destroy() {
-        // Cleanup nếu cần
+    	// Cleanup 
     }
 }
