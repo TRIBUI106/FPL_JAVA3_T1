@@ -11,18 +11,7 @@
 <body>
 <div class="d-flex min-vh-100">
     <!-- Sidebar -->
-    <div class="bg-primary text-white p-4" style="width: 280px;">
-        <h3 class="mb-5">ABC NEWS</h3>
-        <nav class="nav flex-column gap-3">
-            <a href="${pageContext.request.contextPath}/admin/dashboard" class="nav-link text-white active"><i class="bi bi-house"></i> Trang chủ</a>
-            <a href="${pageContext.request.contextPath}/admin/news" class="nav-link text-white"><i class="bi bi-newspaper"></i> Quản lý tin tức</a>
-            <a href="${pageContext.request.contextPath}/admin/category" class="nav-link text-white"><i class="bi bi-tags"></i> Quản lý loại tin</a>
-            <a href="${pageContext.request.contextPath}/admin/user" class="nav-link text-white"><i class="bi bi-people"></i> Quản lý người dùng</a>
-            <a href="${pageContext.request.contextPath}/admin/newsletter" class="nav-link text-white"><i class="bi bi-envelope"></i> Newsletter</a>
-            <hr>
-            <a href="${pageContext.request.contextPath}/home" class="nav-link text-warning"><i class="bi bi-box-arrow-up-right"></i> Xem trang người dùng</a>
-        </nav>
-    </div>
+    <jsp:include page="../layout/admin-sidebar.jsp"></jsp:include>
 
     <!-- Main -->
     <div class="flex-grow-1 p-5 bg-light">

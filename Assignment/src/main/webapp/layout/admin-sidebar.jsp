@@ -36,9 +36,8 @@
             <i class="bi bi-box-arrow-up-right"></i> Xem trang người dùng
         </a>
         
-        <a href="${pageContext.request.contextPath}/admin/logout" 
-           class="nav-link text-white ${fn:contains(currentPath, 'newsletter') ? 'active bg-white text-primary fw-bold' : ''}">
-            <i class="bi bi-error"></i> Đăng xuất
+        <a href="${pageContext.request.contextPath}/admin/logout" class="nav-link text-warning">
+            <i class="bi bi-arrow-up-left-circle-fill"></i> Đăng xuất
         </a>
         
     </nav>

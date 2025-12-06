@@ -1,3 +1,4 @@
+<!--
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header class="bg-primary text-white shadow-sm py-3">
     <div class="container">
@@ -7,3 +8,4 @@
         </div>
     </div>
 </header>
+-->
