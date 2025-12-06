@@ -9,8 +9,8 @@ import java.io.IOException;
 
 import entity.User;
 
-@WebFilter("/admin/*")
-public class AdminAuthFilter implements Filter {
+@WebFilter({"/admin/*", "/reporter/*"})
+public class AuthFilter implements Filter {
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -30,16 +30,16 @@ public class AdminAuthFilter implements Filter {
 
         boolean isLoggedIn = (session != null && u != null);
         
-        if (!isAdmin) {
-            res.sendRedirect(req.getContextPath() + "/home"); 
-            return;
-        }
-        
         // nếu k phải admin thì redirect vô news-management
         
         if (!isLoggedIn) {
             res.sendRedirect(req.getContextPath() + "/login");
-            return;
+            if (!isAdmin) {
+                res.sendRedirect(req.getContextPath() + "/home"); 
+                return;
+            } else {
+            	res.sendRedirect(req.getContextPath() + "/reporter");
+            }
         }
         
         chain.doFilter(request, response);
