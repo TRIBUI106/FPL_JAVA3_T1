@@ -30,7 +30,7 @@ public class InitServlet extends HttpServlet {
             System.out.println("========================================");
 
         } catch (Exception e) {
-            System.err.println("LỖI KHỦNG KHIẾP KHI KHỞI ĐỘNG INIT SERVLET:");
+            System.err.println("LỖI KHI KHỞI ĐỘNG INIT SERVLET:");
             e.printStackTrace();
         }
     }
