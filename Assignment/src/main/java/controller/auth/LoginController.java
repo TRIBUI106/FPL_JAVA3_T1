@@ -42,6 +42,7 @@ public class LoginController extends HttpServlet {
             User user = loginDAO.login(id, password);
 
             if (user != null) {
+            	
                 HttpSession session = request.getSession(); // tạo session nếu chưa có
                 session.setAttribute("user", user);
 
