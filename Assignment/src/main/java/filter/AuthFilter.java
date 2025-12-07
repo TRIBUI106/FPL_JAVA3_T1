@@ -35,18 +35,18 @@ public class AuthFilter implements Filter {
         boolean isAdmin = u.getRole();
         String requestURI = req.getRequestURI();
         
-        // 3. Kiểm tra quyền theo đường dẫn
-        if (requestURI.contains("/admin/")) {
-            if (!isAdmin) {
-                res.sendRedirect(req.getContextPath() + "/reporter"); 
-                return;
-            }
-        } else if (requestURI.contains("/reporter/")) {
-             if (isAdmin) {
-                 res.sendRedirect(req.getContextPath() + "/admin/dashboard");
-                 return;
-             }
-        }
+//        // 3. Kiểm tra quyền theo đường dẫn
+//        if (requestURI.contains("/admin/")) {
+//            if (!isAdmin) {
+//                res.sendRedirect(req.getContextPath() + "/reporter"); 
+//                return;
+//            }
+//        } else if (requestURI.contains("/reporter/")) {
+//             if (isAdmin) {
+//                 res.sendRedirect(req.getContextPath() + "/admin/dashboard");
+//                 return;
+//             }
+//        }
         
         // 4. Cho đi tiếp
         chain.doFilter(request, response);

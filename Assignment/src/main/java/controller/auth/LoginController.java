@@ -46,14 +46,9 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession(); // tạo session nếu chưa có
                 session.setAttribute("user", user);
 
-                // Redirect dựa trên quyền user nếu cần
-                if (user.isAdmin()) {
-                    response.sendRedirect(request.getContextPath() + "/admin/dashboard");
-                } else if ( !user.isAdmin() ) {
-                	response.sendRedirect(request.getContextPath() + "/reporter/dashboard");
-                } else {
-                    response.sendRedirect(request.getContextPath() + "/home");
-                }
+
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                
                 return;
             } else {
                 request.setAttribute("error", "Sai ID hoặc mật khẩu!");
