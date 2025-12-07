@@ -26,7 +26,7 @@
                         <td>${loop.count}</td>
                         <td>${n.email}</td>
                         <td><span class="badge bg-success">Đang hoạt động</span></td>
-                        <td><a href="${pageContext.request.contextPath}/admin/newsletter?action=delete&id=${n.id}" class="btn btn-danger btn-sm" onclick="return confirm('Hủy đăng ký này?')">Hủy</a></td>
+                        <td><a href="${pageContext.request.contextPath}/admin/newsletter?action=delete&id=${n.email}" class="btn btn-danger btn-sm" onclick="return confirm('Hủy đăng ký này?')">Hủy</a></td>
                     </tr>
                     </c:forEach>
                 </tbody>

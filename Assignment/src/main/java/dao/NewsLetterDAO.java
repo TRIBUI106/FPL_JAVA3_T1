@@ -2,11 +2,15 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import entity.Newsletter;
 import utils.XJdbc;
 
 public class NewsLetterDAO {
 
+	private static final String SELECT_ALL = "SELECT Email FROM NEWSLETTERS";
 	private final String registerNotifyEmailSQL = "INSERT INTO NEWSLETTERS(Email) VALUE (?)";
 	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM NEWSLETTERS";
 	
@@ -20,6 +24,12 @@ public class NewsLetterDAO {
 	
 	public int regEmail(String email) {
 		return XJdbc.executeUpdate(registerNotifyEmailSQL, email);
+	}
+	
+	public List<Newsletter> getAll() {
+		List<Newsletter> list = XJdbc.getBeanList(Newsletter.class, SELECT_ALL);
+		return list;
+		
 	}
 	
 }
