@@ -3,6 +3,9 @@ package dao;
 import entity.Category;
 import entity.News;
 import utils.XJdbc;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class NewsDAO {
@@ -20,7 +23,18 @@ public class NewsDAO {
 	private static final String SELCT_NEWS_LATEST_5 = "SELECT * FROM NEWS ORDER BY PostedDate DESC LIMIT 5";
 	// Để tạm load
 	private static final String SELECT_ALL_CATE = "SELECT * FROM CATEGORIES ORDER BY Name";
+	
+	//Count nè
+	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM NEWS";
 
+	public int countAll() throws SQLException {
+		ResultSet rs = XJdbc.executeQuery(COUNT_ALL_SQL);
+		if ( rs.next() ) {			
+			return rs.getInt(1);
+		}
+		return 0;
+	}
+	
 	// Cái này để tạm
 	public List<Category> getAllCate() {
 		return XJdbc.getBeanList(Category.class, SELECT_ALL_CATE);

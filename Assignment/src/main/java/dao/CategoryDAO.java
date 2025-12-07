@@ -2,6 +2,9 @@ package dao;
 
 import entity.Category;
 import utils.XJdbc;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryDAO {
@@ -11,7 +14,16 @@ public class CategoryDAO {
     private static final String UPDATE_SQL = "UPDATE CATEGORIES SET Name = ? WHERE Id = ?";
     private static final String DELETE_SQL = "DELETE FROM CATEGORIES WHERE Id = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE Id = ?";
+	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM CATEGORIES";
 
+	public int countAll() throws SQLException {
+		ResultSet rs = XJdbc.executeQuery(COUNT_ALL_SQL);
+		if ( rs.next() ) {			
+			return rs.getInt(1);
+		}
+		return 0;
+	}
+	
     public List<Category> getAll() {
         return XJdbc.getBeanList(Category.class, SELECT_ALL);
     }

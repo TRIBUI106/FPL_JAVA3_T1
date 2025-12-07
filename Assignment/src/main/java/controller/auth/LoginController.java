@@ -46,7 +46,6 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession(); // tạo session nếu chưa có
                 session.setAttribute("user", user);
 
-
                 response.sendRedirect(request.getContextPath() + "/admin/dashboard");
                 
                 return;
