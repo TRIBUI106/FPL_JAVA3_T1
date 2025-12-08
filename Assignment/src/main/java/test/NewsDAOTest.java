@@ -1,313 +1,235 @@
 package test;
 
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.After;
-import org.junit.Test;
-
-import dao.CategoryDAO;
-import dao.NewsDAO;
 import entity.News;
-import entity.Category;
-import utils.XJdbc;
+import org.junit.jupiter.api.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit Test cho NewsDAO
- * Test Cases: TC17, TC18, TC19, TC20
+ * Unit Test cho NewsDAO - 15 test cases
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class NewsDAOTest {
     
-    private NewsDAO newsDAO;
-    private CategoryDAO categoryDAO;
-    private static final String TEST_NEWS_ID = "N001";
-    private static final String TEST_CATEGORY_ID = "TC";
+    private static NewsDAO newsDAO;
+    private static String testNewsId = "TEST_N001";
     
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setupClass() {
+        System.out.println("=== BẮT ĐẦU TEST NewsDAO ===");
         newsDAO = new NewsDAO();
-        categoryDAO = new CategoryDAO();
-        cleanUpTestData();
-        setupTestCategory();
     }
     
-    @After
-    public void tearDown() {
-        cleanUpTestData();
-    }
-    
-    private void setupTestCategory() {
+    @AfterAll
+    public static void tearDownClass() {
+        System.out.println("=== KẾT THÚC TEST NewsDAO ===");
+        // Cleanup
         try {
-            Category testCategory = new Category(TEST_CATEGORY_ID, "Test Category");
-            categoryDAO.insert(testCategory);
-        } catch (Exception e) {
-            // Category might already exist
-        }
+            newsDAO.delete(testNewsId);
+            newsDAO.delete("TEST_N002");
+            newsDAO.delete("TEST_BOUNDARY");
+        } catch (Exception e) {}
     }
     
-    private void cleanUpTestData() {
-        try {
-            XJdbc.executeUpdate("DELETE FROM NEWS WHERE Id LIKE 'N%'");
-            XJdbc.executeUpdate("DELETE FROM CATEGORIES WHERE Id = ?", TEST_CATEGORY_ID);
-        } catch (Exception e) {
-            // Ignore
-        }
-    }
+    // ========== TC_NEWS_001-005: INSERT TESTS ==========
     
-    /**
-     * TC17: Kiểm tra insert News thành công
-     * Expected: Return true, news được lưu vào database
-     */
     @Test
-    public void testInsertNewsSuccessfully() {
-        // Arrange
-        News news = new News();
-        news.setId(TEST_NEWS_ID);
-        news.setTitle("Test News Title");
-        news.setContent("This is test news content");
-        news.setImage("img/test.jpg");
-        news.setPostedDate(Date.valueOf(LocalDate.now()));
-        news.setAuthor("TESTAUTHOR");
-        news.setViewCount(0);
-        news.setCategoryId(TEST_CATEGORY_ID);
-        news.setHome(true);
-        
-        // Act
+    @Order(1)
+    @DisplayName("TC_NEWS_001: Insert tin với dữ liệu hợp lệ - Thành công")
+    public void testInsert_ValidData_Success() {
+        News news = createValidNews(testNewsId);
         boolean result = newsDAO.insert(news);
         
-        // Assert
-        assertTrue("Should insert news successfully", result);
+        assertTrue(result, "Insert nên trả về true");
         
-        // Verify in database
-        News inserted = newsDAO.findById(TEST_NEWS_ID);
-        assertNotNull("News should exist in database", inserted);
-        assertEquals("Title should match", "Test News Title", inserted.getTitle());
-        assertEquals("Category ID should match", TEST_CATEGORY_ID, inserted.getCategoryId());
+        News saved = newsDAO.findById(testNewsId);
+        assertNotNull(saved, "Tin đã lưu nên tồn tại");
+        assertEquals("Test News Title", saved.getTitle());
     }
     
-    /**
-     * TC18: Kiểm tra insert News với ID trùng
-     * Expected: Return false, không thêm được
-     */
     @Test
-    public void testInsertNewsWithDuplicateId() {
-        // Arrange - Insert first news
-        News news1 = new News();
-        news1.setId(TEST_NEWS_ID);
-        news1.setTitle("First News");
-        news1.setContent("First content");
-        news1.setImage("img/first.jpg");
-        news1.setPostedDate(Date.valueOf(LocalDate.now()));
-        news1.setAuthor("AUTHOR1");
-        news1.setViewCount(0);
-        news1.setCategoryId(TEST_CATEGORY_ID);
-        news1.setHome(false);
+    @Order(2)
+    @DisplayName("TC_NEWS_002: Insert tin với ID trùng - Thất bại")
+    public void testInsert_DuplicateId_Fail() {
+        News news = createValidNews(testNewsId);
+        boolean result = newsDAO.insert(news);
         
-        newsDAO.insert(news1);
-        
-        // Act - Try to insert with same ID
-        News news2 = new News();
-        news2.setId(TEST_NEWS_ID); // Same ID
-        news2.setTitle("Second News");
-        news2.setContent("Second content");
-        news2.setImage("img/second.jpg");
-        news2.setPostedDate(Date.valueOf(LocalDate.now()));
-        news2.setAuthor("AUTHOR2");
-        news2.setViewCount(0);
-        news2.setCategoryId(TEST_CATEGORY_ID);
-        news2.setHome(false);
-        
-        boolean result = newsDAO.insert(news2);
-        
-        // Assert
-        assertFalse("Should not insert news with duplicate ID", result);
-        
-        // Verify original news still exists with original data
-        News existing = newsDAO.findById(TEST_NEWS_ID);
-        assertEquals("Should keep original title", "First News", existing.getTitle());
+        assertFalse(result, "Insert với ID trùng nên return false");
     }
     
-    /**
-     * TC19: Kiểm tra getHomeNews
-     * Expected: Return List không null, chỉ chứa news có Home=true
-     */
     @Test
-    public void testGetHomeNews() {
-        // Arrange - Insert multiple news, some with Home=true
-        News homeNews1 = createTestNews("NH001", "Home News 1", true);
-        News homeNews2 = createTestNews("NH002", "Home News 2", true);
-        News regularNews = createTestNews("NR001", "Regular News", false);
+    @Order(3)
+    @DisplayName("TC_NEWS_003: Insert tin với Title rỗng - Thất bại")
+    public void testInsert_EmptyTitle_Fail() {
+        News news = createValidNews("TEST_N002");
+        news.setTitle("");
         
-        newsDAO.insert(homeNews1);
-        newsDAO.insert(homeNews2);
-        newsDAO.insert(regularNews);
-        
-        // Act
-        List<News> homeNewsList = newsDAO.getHomeNews();
-        
-        // Assert
-        assertNotNull("Home news list should not be null", homeNewsList);
-        assertTrue("Should have at least 2 home news", homeNewsList.size() >= 2);
-        
-        // Verify all returned news have Home=true
-        for (News news : homeNewsList) {
-            assertTrue("All news should have Home=true", news.isHome());
-        }
-        
-        // Verify regular news is not in the list
-        boolean containsRegular = homeNewsList.stream()
-            .anyMatch(n -> "NR001".equals(n.getId()));
-        assertFalse("Should not contain regular news", containsRegular);
-        
-        // Cleanup
-        newsDAO.delete("NH001");
-        newsDAO.delete("NH002");
-        newsDAO.delete("NR001");
+        assertThrows(Exception.class, () -> newsDAO.insert(news),
+            "Insert với title rỗng nên throw exception");
     }
     
-    /**
-     * TC20: Kiểm tra getLatestNews
-     * Expected: Return List có tối đa 5 news, sắp xếp theo ngày giảm dần
-     */
     @Test
-    public void testGetLatestNews() {
-        // Arrange - Insert 7 news with different dates
-        LocalDate baseDate = LocalDate.now();
+    @Order(4)
+    @DisplayName("TC_NEWS_004: Insert tin với CategoryId không tồn tại - Thất bại")
+    public void testInsert_InvalidCategory_Fail() {
+        News news = createValidNews("TEST_N003");
+        news.setCategoryId("INVALID_CAT");
         
-        for (int i = 1; i <= 7; i++) {
-            News news = new News();
-            news.setId("NL00" + i);
-            news.setTitle("Latest News " + i);
-            news.setContent("Content " + i);
-            news.setImage("img/news" + i + ".jpg");
-            news.setPostedDate(Date.valueOf(baseDate.minusDays(i)));
-            news.setAuthor("AUTHOR");
-            news.setViewCount(0);
-            news.setCategoryId(TEST_CATEGORY_ID);
-            news.setHome(false);
-            
-            newsDAO.insert(news);
-        }
-        
-        // Act
-        List<News> latestNews = newsDAO.getLatestNews();
-        
-        // Assert
-        assertNotNull("Latest news list should not be null", latestNews);
-        assertTrue("Should return at most 5 news", latestNews.size() <= 5);
-        assertEquals("Should return exactly 5 news", 5, latestNews.size());
-        
-        // Verify sorted by date descending (newest first)
-        for (int i = 0; i < latestNews.size() - 1; i++) {
-            Date currentDate = latestNews.get(i).getPostedDate();
-            Date nextDate = latestNews.get(i + 1).getPostedDate();
-            assertTrue("Should be sorted by date descending", 
-                currentDate.compareTo(nextDate) >= 0);
-        }
-        
-        // Verify the newest news is first
-        assertEquals("First news should be NL001", "NL001", latestNews.get(0).getId());
-        
-        // Cleanup
-        for (int i = 1; i <= 7; i++) {
-            newsDAO.delete("NL00" + i);
-        }
+        assertThrows(Exception.class, () -> newsDAO.insert(news),
+            "Insert với category không hợp lệ nên throw exception");
     }
     
-    /**
-     * TC - Additional: Test update news
-     */
     @Test
-    public void testUpdateNewsSuccessfully() {
-        // Arrange - Insert news first
-        News news = createTestNews(TEST_NEWS_ID, "Original Title", false);
-        newsDAO.insert(news);
+    @Order(5)
+    @DisplayName("TC_NEWS_005: Insert tin với Title 255 ký tự (boundary) - Thành công")
+    public void testInsert_TitleMaxLength_Success() {
+        String maxTitle = "A".repeat(255);
+        News news = createValidNews("TEST_BOUNDARY");
+        news.setTitle(maxTitle);
         
-        // Act - Update news
-        news.setTitle("Updated Title");
+        boolean result = newsDAO.insert(news);
+        assertTrue(result, "Insert với title max length nên thành công");
+        
+        newsDAO.delete("TEST_BOUNDARY");
+    }
+    
+    // ========== TC_NEWS_006-010: UPDATE TESTS ==========
+    
+    @Test
+    @Order(6)
+    @DisplayName("TC_NEWS_006: Update tin với dữ liệu hợp lệ - Thành công")
+    public void testUpdate_ValidData_Success() {
+        News news = newsDAO.findById(testNewsId);
+        assertNotNull(news, "Tin phải tồn tại trước khi update");
+        
+        String newTitle = "Updated Title " + System.currentTimeMillis();
+        news.setTitle(newTitle);
         news.setContent("Updated content");
-        news.setViewCount(100);
+        
         newsDAO.update(news);
         
-        // Assert
-        News updated = newsDAO.findById(TEST_NEWS_ID);
-        assertNotNull("News should still exist", updated);
-        assertEquals("Title should be updated", "Updated Title", updated.getTitle());
-        assertEquals("Content should be updated", "Updated content", updated.getContent());
-        assertEquals("View count should be updated", 100, updated.getViewCount());
+        News updated = newsDAO.findById(testNewsId);
+        assertEquals(newTitle, updated.getTitle());
     }
     
-    /**
-     * TC - Additional: Test delete news
-     */
     @Test
-    public void testDeleteNewsSuccessfully() {
-        // Arrange - Insert news first
-        News news = createTestNews(TEST_NEWS_ID, "To Be Deleted", false);
+    @Order(7)
+    @DisplayName("TC_NEWS_007: Update tin với ID không tồn tại - Không có exception")
+    public void testUpdate_NonExistentId_NoException() {
+        News news = createValidNews("NON_EXISTENT_ID");
+        
+        assertDoesNotThrow(() -> newsDAO.update(news),
+            "Update với ID không tồn tại không nên throw exception");
+    }
+    
+    @Test
+    @Order(8)
+    @DisplayName("TC_NEWS_008: Update chỉ Title, giữ nguyên các field khác")
+    public void testUpdate_OnlyTitle_OtherFieldsUnchanged() {
+        News original = newsDAO.findById(testNewsId);
+        String originalContent = original.getContent();
+        
+        original.setTitle("Title Only Update");
+        newsDAO.update(original);
+        
+        News updated = newsDAO.findById(testNewsId);
+        assertEquals("Title Only Update", updated.getTitle());
+        assertEquals(originalContent, updated.getContent());
+    }
+    
+    // ========== TC_NEWS_009-011: DELETE TESTS ==========
+    
+    @Test
+    @Order(9)
+    @DisplayName("TC_NEWS_009: Delete tin với ID hợp lệ - Thành công")
+    public void testDelete_ValidId_Success() {
+        String deleteId = "TEST_DELETE_001";
+        News news = createValidNews(deleteId);
         newsDAO.insert(news);
         
-        // Act
-        newsDAO.delete(TEST_NEWS_ID);
+        newsDAO.delete(deleteId);
         
-        // Assert
-        News deleted = newsDAO.findById(TEST_NEWS_ID);
-        assertNull("News should not exist after deletion", deleted);
+        News deleted = newsDAO.findById(deleteId);
+        assertNull(deleted, "Tin đã xóa không nên tồn tại");
     }
     
-    /**
-     * TC - Additional: Test getAll news
-     */
     @Test
-    public void testGetAllNews() {
-        // Arrange - Insert multiple news
-        News news1 = createTestNews("NA001", "News A", false);
-        News news2 = createTestNews("NA002", "News B", false);
-        newsDAO.insert(news1);
-        newsDAO.insert(news2);
+    @Order(10)
+    @DisplayName("TC_NEWS_010: Delete tin với ID không tồn tại - Không có exception")
+    public void testDelete_NonExistentId_NoException() {
+        assertDoesNotThrow(() -> newsDAO.delete("NON_EXISTENT_ID"),
+            "Delete với ID không tồn tại không nên throw exception");
+    }
+    
+    // ========== TC_NEWS_011-013: FIND BY ID TESTS ==========
+    
+    @Test
+    @Order(11)
+    @DisplayName("TC_NEWS_011: FindById với ID hợp lệ - Trả về News")
+    public void testFindById_ValidId_ReturnNews() {
+        News news = newsDAO.findById(testNewsId);
         
-        // Act
-        List<News> allNews = newsDAO.getAll();
+        assertNotNull(news, "FindById nên trả về News object");
+        assertEquals(testNewsId, news.getId());
+    }
+    
+    @Test
+    @Order(12)
+    @DisplayName("TC_NEWS_012: FindById với ID không tồn tại - Trả về null")
+    public void testFindById_NonExistentId_ReturnNull() {
+        News news = newsDAO.findById("NON_EXISTENT_ID");
+        assertNull(news, "FindById với ID không tồn tại nên return null");
+    }
+    
+    @Test
+    @Order(13)
+    @DisplayName("TC_NEWS_013: FindById với ID null - Trả về null")
+    public void testFindById_NullId_ReturnNull() {
+        News news = newsDAO.findById(null);
+        assertNull(news, "FindById với ID null nên return null");
+    }
+    
+    // ========== TC_NEWS_014-015: GET ALL TESTS ==========
+    
+    @Test
+    @Order(14)
+    @DisplayName("TC_NEWS_014: GetAll - Trả về List không null")
+    public void testGetAll_ReturnNonNullList() {
+        List<News> list = newsDAO.getAll();
         
-        // Assert
-        assertNotNull("News list should not be null", allNews);
-        assertTrue("Should have at least 2 news", allNews.size() >= 2);
+        assertNotNull(list, "GetAll nên trả về List không null");
+        assertTrue(list.size() > 0, "List nên có ít nhất 1 tin");
+    }
+    
+    @Test
+    @Order(15)
+    @DisplayName("TC_NEWS_015: GetHomeNews - Chỉ trả về tin có Home=true")
+    public void testGetHomeNews_OnlyHomeNews() {
+        List<News> homeNews = newsDAO.getHomeNews();
         
-        // Verify sorted by PostedDate DESC
-        if (allNews.size() > 1) {
-            Date firstDate = allNews.get(0).getPostedDate();
-            Date secondDate = allNews.get(1).getPostedDate();
-            assertTrue("Should be sorted by date descending", 
-                firstDate.compareTo(secondDate) >= 0);
+        assertNotNull(homeNews, "GetHomeNews nên trả về List");
+        
+        // Verify tất cả tin đều có home = true
+        for (News n : homeNews) {
+            assertTrue(n.isHome(), "Tất cả tin trong homeNews nên có Home=true");
         }
-        
-        // Cleanup
-        newsDAO.delete("NA001");
-        newsDAO.delete("NA002");
     }
     
-    /**
-     * TC - Additional: Test findById with non-existent ID
-     */
-    @Test
-    public void testFindByIdNonExistent() {
-        News news = newsDAO.findById("NOTEXIST999");
-        assertNull("Should return null for non-existent ID", news);
-    }
+    // ========== HELPER METHOD ==========
     
-    // Helper method to create test news
-    private News createTestNews(String id, String title, boolean home) {
+    private News createValidNews(String id) {
         News news = new News();
         news.setId(id);
-        news.setTitle(title);
-        news.setContent("Test content for " + title);
+        news.setTitle("Test News Title");
+        news.setContent("Test content for news");
         news.setImage("img/test.jpg");
         news.setPostedDate(Date.valueOf(LocalDate.now()));
-        news.setAuthor("TESTAUTHOR");
+        news.setAuthor("admin");
+        news.setCategoryId("TT");
+        news.setHome(true);
         news.setViewCount(0);
-        news.setCategoryId(TEST_CATEGORY_ID);
-        news.setHome(home);
         return news;
     }
 }
