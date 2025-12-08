@@ -17,17 +17,20 @@ import entity.Newsletter;
 public class NewsletterController extends HttpServlet { 
 	
 	private final NewsLetterDAO dao = new NewsLetterDAO();
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       List<Newsletter> list = dao.getAll();
-       req.setAttribute("listNewsletters", list);
-       req.getRequestDispatcher("/admin/newsletter.jsp").forward(req, resp); 
-	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String URI = req.getContextPath();
+
+		String action = req.getParameter("action");
+		
+		if ("delete".equals(action)) {
+			String email = req.getParameter("id");
+			int rows = dao.deleteEmail(email);
+		}
+
+		List<Newsletter> list = dao.getAll();
+		req.setAttribute("listNewsletters", list);
+		req.getRequestDispatcher("/admin/newsletter.jsp").forward(req, resp);
 	}
 
 }

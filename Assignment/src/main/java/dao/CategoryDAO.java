@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Category;
+import entity.News;
 import utils.XJdbc;
 
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ public class CategoryDAO {
     private static final String DELETE_SQL = "DELETE FROM CATEGORIES WHERE Id = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE Id = ?";
 	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM CATEGORIES";
+	private static final String GET_NEWS_SQL = "SELECT n.* FROM NEWS n LEFT JOIN CATEGORIES c ON n.CategoryId = c.Id WHERE c.Id = ?";
 
 	public int countAll() throws SQLException {
 		ResultSet rs = XJdbc.executeQuery(COUNT_ALL_SQL);
@@ -30,6 +32,10 @@ public class CategoryDAO {
 
     public Category findById(String id) {
         return XJdbc.getSingleBean(Category.class, SELECT_BY_ID, id);
+    }
+    
+    public List<News> findNewsByCategoryId(String id) {
+    	return XJdbc.getBeanList(News.class, GET_NEWS_SQL, id);
     }
 
     public void insert(Category c) {
