@@ -2,6 +2,7 @@ package test;
 
 import entity.News;
 import org.junit.jupiter.api.*;
+import dao.NewsDAO;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
