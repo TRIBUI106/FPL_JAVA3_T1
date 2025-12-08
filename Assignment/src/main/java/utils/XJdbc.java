@@ -35,7 +35,7 @@ public class XJdbc {
 
     public static Connection openConnection() {
 
-    	try (InputStream in = XJdbc.class.getResourceAsStream("/db.properties")) {
+    	try (InputStream in = XJdbc.class.getResourceAsStream("/resources.properties")) {
     		Properties p = new Properties();
     		p.load(in);
     		driver = p.getProperty("db.driver");

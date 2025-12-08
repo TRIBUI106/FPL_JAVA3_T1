@@ -1,5 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%
+    String toastType = (String) session.getAttribute("toastType");
+    String toastMessage = (String) session.getAttribute("toastMessage");
+    
+    // Xóa message khỏi session sau khi đọc
+    if (toastType != null && toastMessage != null) {
+        session.removeAttribute("toastType");
+        session.removeAttribute("toastMessage");
+    }
+%>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -20,6 +31,20 @@
 			<%@ include file="../layout/admin-header.jsp"%>
 			<div class="container my-5">
 				<h2 class="text-primary fw-bold mb-4">QUẢN LÝ TIN TỨC</h2>
+				
+				<!-- Toast Container -->
+				<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+				    <div id="mainToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+				        <div class="d-flex">
+				            <div class="toast-body d-flex align-items-center">
+				                <i id="toastIcon" class="me-2"></i>
+				                <span id="toastText"></span>
+				            </div>
+				            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+				        </div>
+				    </div>
+				</div>
+				
 				<button class="btn btn-success mb-3" data-bs-toggle="modal"
 					data-bs-target="#addModal">Thêm tin mới</button>
 				<table class="table table-striped table-hover">
@@ -124,4 +149,45 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<!-- Script hiển thị toast -->
+<% if (toastType != null && toastMessage != null) { %>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toastEl = document.getElementById('mainToast');
+        const toastIcon = document.getElementById('toastIcon');
+        const toastText = document.getElementById('toastText');
+        
+        // Reset classes
+        toastEl.className = 'toast align-items-center border-0';
+        
+        // Set style dựa trên type
+        <% if ("success".equals(toastType)) { %>
+            toastEl.classList.add('bg-success', 'text-white');
+            toastIcon.className = 'bi bi-check-circle-fill me-2 fs-5';
+        <% } else if ("error".equals(toastType)) { %>
+            toastEl.classList.add('bg-danger', 'text-white');
+            toastIcon.className = 'bi bi-exclamation-circle-fill me-2 fs-5';
+        <% } else if ("warning".equals(toastType)) { %>
+            toastEl.classList.add('bg-warning', 'text-dark');
+            toastIcon.className = 'bi bi-exclamation-triangle-fill me-2 fs-5';
+        <% } else if ("info".equals(toastType)) { %>
+            toastEl.classList.add('bg-info', 'text-white');
+            toastIcon.className = 'bi bi-info-circle-fill me-2 fs-5';
+        <% } %>
+        
+        // Set message
+        toastText.textContent = '<%= toastMessage.replace("'", "\\'") %>';
+        
+        // Show toast với animation
+        const toast = new bootstrap.Toast(toastEl, {
+            autohide: true,
+            delay: 4000 // 4 giây
+        });
+        toast.show();
+    });
+</script>
+<% } %>
+
 </html>
+
