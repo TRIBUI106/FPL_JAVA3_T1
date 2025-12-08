@@ -1,34 +1,39 @@
 package dao;
 
-import entity.Newsletter;
-import utils.XJdbc;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-public class NewsletterDAO {
+import entity.Newsletter;
+import utils.XJdbc;
 
-    public List<Newsletter> getAll() {
-        String sql = "SELECT Email, Enabled FROM NEWSLETTERS ORDER BY Email";
-        return XJdbc.getBeanList(Newsletter.class, sql);
-    }
-    
-    public boolean insert(String email) {
-        String sql = "INSERT INTO NEWSLETTERS (Email, Enabled) VALUES (?, 1)";
-        return XJdbc.executeUpdate(sql, email) > 0;
-    }
+public class NewsLetterDAO {
 
-    public boolean toggle(String email, int enabled) {
-        String sql = "UPDATE NEWSLETTERS SET Enabled = ? WHERE Email = ?";
-        return XJdbc.executeUpdate(sql, enabled, email) > 0;
-    }
-
-    public boolean delete(String email) {
-        String sql = "DELETE FROM NEWSLETTERS WHERE Email = ?";
-        return XJdbc.executeUpdate(sql, email) > 0;
-    }
-
-    public boolean exists(String email) {
-        String sql = "SELECT COUNT(*) FROM NEWSLETTERS WHERE Email = ?";
-        Long count = XJdbc.getValue(sql, email);
-        return count != null && count > 0;
-    }
+	private static final String SELECT_ALL = "SELECT Email FROM NEWSLETTERS";
+	private final String registerNotifyEmailSQL = "INSERT INTO NEWSLETTERS(Email) VALUE (?)";
+	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM NEWSLETTERS";
+	private static final String deleteEmailFromNewsletterSQL = "DELETE FROM NEWSLETTERS WHERE Email = ?";
+	
+	public int countAll() throws SQLException {
+		ResultSet rs = XJdbc.executeQuery(COUNT_ALL_SQL);
+		if ( rs.next() ) {			
+			return rs.getInt(1);
+		}
+		return 0;
+	}
+	
+	public int deleteEmail(String email) {
+		return XJdbc.executeUpdate(deleteEmailFromNewsletterSQL, email);
+	}
+	
+	public int regEmail(String email) {
+		return XJdbc.executeUpdate(registerNotifyEmailSQL, email);
+	}
+	
+	public List<Newsletter> getAll() {
+		List<Newsletter> list = XJdbc.getBeanList(Newsletter.class, SELECT_ALL);
+		return list;
+		
+	}
+	
 }
