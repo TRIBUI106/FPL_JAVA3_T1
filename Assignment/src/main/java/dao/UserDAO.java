@@ -4,9 +4,21 @@ import entity.User;
 import utils.XJdbc;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserDAO {
+	
+
+	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM USERS";
+	
+	public int countAll() throws SQLException {
+		ResultSet rs = XJdbc.executeQuery(COUNT_ALL_SQL);
+		if ( rs.next() ) {			
+			return rs.getInt(1);
+		}
+		return 0;
+	}
 
     public boolean insert(User u) {
         String sql = "INSERT INTO USERS (Id, Password, Fullname, Birthday, Gender, Mobile, Email, Role) " +

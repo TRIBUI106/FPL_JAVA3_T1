@@ -3,6 +3,9 @@ package dao;
 import entity.Category;
 import entity.News;
 import utils.XJdbc;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class NewsDAO {
@@ -14,10 +17,24 @@ public class NewsDAO {
 			+ "ViewCount = ?, CategoryId = ?, Home = ? WHERE Id = ?";
 	private static final String DELETE_SQL = "DELETE FROM NEWS WHERE Id = ?";
 	private static final String SELECT_BY_ID = "SELECT * FROM NEWS WHERE Id = ?";
-
+	//Này cho cái guest 
+	private static final String SELECT_HOME = "SELECT * FROM NEWS WHERE Home = 1 ORDER BY PostedDate DESC";
+	// Này cho 5 tin mới nhất
+	private static final String SELCT_NEWS_LATEST_5 = "SELECT * FROM NEWS ORDER BY PostedDate DESC LIMIT 5";
 	// Để tạm load
 	private static final String SELECT_ALL_CATE = "SELECT * FROM CATEGORIES ORDER BY Name";
+	
+	//Count nè
+	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM NEWS";
 
+	public int countAll() throws SQLException {
+		ResultSet rs = XJdbc.executeQuery(COUNT_ALL_SQL);
+		if ( rs.next() ) {			
+			return rs.getInt(1);
+		}
+		return 0;
+	}
+	
 	// Cái này để tạm
 	public List<Category> getAllCate() {
 		return XJdbc.getBeanList(Category.class, SELECT_ALL_CATE);
@@ -26,7 +43,15 @@ public class NewsDAO {
 	public List<News> getAll() {
 		return XJdbc.getBeanList(News.class, SELECT_ALL);
 	}
-
+	
+	public List<News> getHomeNews() {
+	    return XJdbc.getBeanList(News.class, SELECT_HOME);
+	}
+	
+	public List<News> getLatestNews() {
+        return XJdbc.getBeanList(News.class, SELCT_NEWS_LATEST_5);
+    }
+	
 	public News findById(String id) {
 		return XJdbc.getSingleBean(News.class, SELECT_BY_ID, id);
 	}

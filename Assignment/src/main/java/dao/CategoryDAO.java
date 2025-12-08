@@ -1,7 +1,11 @@
 package dao;
 
 import entity.Category;
+import entity.News;
 import utils.XJdbc;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryDAO {
@@ -11,13 +15,27 @@ public class CategoryDAO {
     private static final String UPDATE_SQL = "UPDATE CATEGORIES SET Name = ? WHERE Id = ?";
     private static final String DELETE_SQL = "DELETE FROM CATEGORIES WHERE Id = ?";
     private static final String SELECT_BY_ID = "SELECT * FROM CATEGORIES WHERE Id = ?";
+	private static final String COUNT_ALL_SQL = "SELECT COUNT(*) as count FROM CATEGORIES";
+	private static final String GET_NEWS_SQL = "SELECT n.* FROM NEWS n LEFT JOIN CATEGORIES c ON n.CategoryId = c.Id WHERE c.Id = ?";
 
+	public int countAll() throws SQLException {
+		ResultSet rs = XJdbc.executeQuery(COUNT_ALL_SQL);
+		if ( rs.next() ) {			
+			return rs.getInt(1);
+		}
+		return 0;
+	}
+	
     public List<Category> getAll() {
         return XJdbc.getBeanList(Category.class, SELECT_ALL);
     }
 
     public Category findById(String id) {
         return XJdbc.getSingleBean(Category.class, SELECT_BY_ID, id);
+    }
+    
+    public List<News> findNewsByCategoryId(String id) {
+    	return XJdbc.getBeanList(News.class, GET_NEWS_SQL, id);
     }
 
     public void insert(Category c) {
