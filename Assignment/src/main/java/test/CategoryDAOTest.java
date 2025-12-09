@@ -2,6 +2,8 @@ package test;
 
 import entity.Category;
 import entity.News;
+
+import org.junit.Test;
 import org.junit.jupiter.api.*;
 
 import dao.CategoryDAO;
