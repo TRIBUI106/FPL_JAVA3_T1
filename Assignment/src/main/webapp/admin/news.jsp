@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<fmt:setBundle basename="locale" scope="application"/>
 <%
     String toastType = (String) session.getAttribute("toastType");
     String toastMessage = (String) session.getAttribute("toastMessage");
