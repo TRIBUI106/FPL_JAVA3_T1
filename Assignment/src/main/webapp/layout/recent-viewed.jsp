@@ -10,20 +10,20 @@
 
         <!-- Lấy cookie -->
         <c:set var="recent" value="${cookie.recent_news.value}" />
-        <c:if test="${not empty recent && recent != ''}">
-            <%
-                String recent = (String) pageContext.getAttribute("recent");
-                String[] items = recent.split(";;");
-                int count = 0;
-                for (String item : items) {
-                    if (count >= 5) break;
-                    if (item == null || item.trim().isEmpty()) continue;
-
-                    String[] p = item.split("\\|", -1); // split giữ nguyên phần rỗng
-                    String id = p[0];
-                    String title = java.net.URLDecoder.decode(p[1].replace("+", " "), "UTF-8");
-                    String image = p.length > 2 ? p[2] : "";
-            %>
+		<c:if test="${not empty recent && recent != ''}">
+		    <%
+		        String recent = (String) pageContext.getAttribute("recent");
+		        String[] items = recent.split("#");
+		        int count = 0;
+		        for (String item : items) {
+		            if (count >= 5) break;
+		            if (item == null || item.trim().isEmpty()) continue;
+		
+		            String[] p = item.split("\\|", -1);
+		            String id = p[0];
+		            String title = java.net.URLDecoder.decode(p[1].replace("+", " "), "UTF-8");
+		            String image = p.length > 2 ? p[2] : "";
+		    %>
             <li class="list-group-item border-0 px-0 py-3">
                 <div class="d-flex gap-3 align-items-start">
                     <% if (image != null && !image.isEmpty() && !"null".equals(image)) { %>
