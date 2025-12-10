@@ -20,29 +20,29 @@
         <% if (isAdmin) { %>
         <a href="${pageContext.request.contextPath}/admin/dashboard"
            class="nav-link text-white ${fn:contains(currentPath, 'dashboard') ? 'active bg-white text-primary fw-bold' : ''}">
-            <i class="bi bi-house"></i> <fmt:message key="label.home"/>
+            <i class="bi bi-house"></i> <fmt:message key="sidebar.home"/>
         </a>
         <% } %>
         
         <!-- Quản lý tin tức - Cả admin và reporter đều thấy -->
         <a href="${pageContext.request.contextPath}/admin/news"
            class="nav-link text-white ${fn:contains(currentPath, 'news') ? 'active bg-white text-primary fw-bold' : ''}">
-            <i class="bi bi-newspaper"></i> <fmt:message key="label.news_management"/>
+            <i class="bi bi-newspaper"></i> <fmt:message key="sidebar.news_management"/>
         </a>
         
         <!-- Các menu khác - Chỉ admin mới thấy -->
         <% if (isAdmin) { %>
         <a href="${pageContext.request.contextPath}/admin/category"
            class="nav-link text-white ${fn:contains(currentPath, 'category') ? 'active bg-white text-primary fw-bold' : ''}">
-            <i class="bi bi-tags"></i> <fmt:message key="label.category_management"/>
+            <i class="bi bi-tags"></i> <fmt:message key="sidebar.category_management"/>
         </a>
         <a href="${pageContext.request.contextPath}/admin/user"
            class="nav-link text-white ${fn:contains(currentPath, 'user') ? 'active bg-white text-primary fw-bold' : ''}">
-            <i class="bi bi-people"></i> <fmt:message key="label.user_management"/>
+            <i class="bi bi-people"></i> <fmt:message key="sidebar.user_management"/>
         </a>
         <a href="${pageContext.request.contextPath}/admin/newsletter"
            class="nav-link text-white ${fn:contains(currentPath, 'newsletter') ? 'active bg-white text-primary fw-bold' : ''}">
-            <i class="bi bi-envelope"></i> <fmt:message key="label.newsletter"/>
+            <i class="bi bi-envelope"></i> <fmt:message key="sidebar.newsletter"/>
         </a>
         <% } %>
 
