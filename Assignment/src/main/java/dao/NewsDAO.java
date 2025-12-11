@@ -133,5 +133,14 @@ public class NewsDAO {
 	public void delete(String id) {
 		XJdbc.executeUpdate(DELETE_SQL, id);
 	}
+	
+	public void incrementViewCount(String newsId) {
+	    String sql = "UPDATE NEWS SET ViewCount = ViewCount + 1 WHERE Id = ?";
+	    try {
+	        XJdbc.executeUpdate(sql, newsId);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 
 }
