@@ -37,13 +37,31 @@ public class NewsController extends HttpServlet {
             News cat = dao.findById(id);
             req.setAttribute("cat", cat);
         }
+        String searchBy = req.getParameter("searchBy");
+        String keyword = req.getParameter("keyword");
+        List<News> list;
 
-        List<News> list = dao.getAll();
+        if (searchBy != null && !searchBy.equals("all") && keyword != null && !keyword.isBlank()) {
+            // lọc kết hợp loại tin + id hoặc content
+            list = dao.searchByCategoryAndKeyword(searchBy, keyword);
+        } else if (searchBy != null && !searchBy.equals("all")) {
+            // lọc theo thể loại tin
+            list = dao.searchByCategory(searchBy);
+        } else if (keyword != null && !keyword.isBlank()) {
+            // tìm theo keyword trên nhiều cột
+            list = dao.searchNews("all", keyword);
+        } else {
+            // hiển thị tất cả khi keyword rỗng
+            list = dao.getAll();
+        }
+
+
         req.setAttribute("listNews", list);
 
         List<Category> categories = dao.getAllCate();
         req.setAttribute("categories", categories);
-
+        req.setAttribute("searchBy", searchBy);
+        req.setAttribute("keyword", keyword);
         req.getRequestDispatcher("/admin/news.jsp").forward(req, resp);
     }
 

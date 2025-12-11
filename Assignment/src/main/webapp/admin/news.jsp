@@ -59,18 +59,21 @@ if (toastType != null && toastMessage != null) {
 					</div>
 					<div class="col-md-8">
 						<form action="${pageContext.request.contextPath}/admin/news"
-							method="get">
+							method="get" id="filterForm">
 							<div class="row g-2">
 								<div class="col-sm-4">
-									<select name="searchBy" class="form-select">
-										<option value="title">Tiêu đề</option>
-										<option value="author">Tác giả</option>
-										<option value="category">Loại tin</option>
+									<select name="searchBy" class="form-select"
+										onchange="document.getElementById('filterForm').submit();">
+										<option value="all" ${searchBy == 'all' ? 'selected' : ''}>--
+											Tất cả --</option>
+										<c:forEach items="${categories}" var="c">
+											<option value="${c.id}" ${searchBy == c.id ? 'selected' : ''}>${c.name}</option>
+										</c:forEach>
 									</select>
 								</div>
 								<div class="col-sm-5">
 									<input type="text" name="keyword" class="form-control"
-										placeholder="Nhập từ khóa...">
+										placeholder="Nhập từ khóa..." value="${keyword}">
 								</div>
 								<div class="col-sm-3">
 									<button type="submit" class="btn btn-primary w-100">
@@ -79,6 +82,7 @@ if (toastType != null && toastMessage != null) {
 								</div>
 							</div>
 						</form>
+
 					</div>
 				</div>
 
