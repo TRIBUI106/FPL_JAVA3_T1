@@ -42,6 +42,10 @@ public class DetailController extends HttpServlet {
         }
 
         request.setAttribute("news", n);
+        
+        //tăng vieecount ở đây
+        dao.incrementViewCount(id);
+        request.setAttribute("news", n);
 
         // Lưu cookie "recent_news" (dùng '#' làm delimiter thay vì ';')
         String data = n.getId() + "|" +
@@ -63,8 +67,10 @@ public class DetailController extends HttpServlet {
         StringBuilder sb = new StringBuilder(data);
 
         for (String s : arr) {
-            if (!s.startsWith(n.getId() + "|") && sb.toString().split("#").length < 5) {
-                sb.append("#").append(s);
+        	if (!s.startsWith(n.getId() + "|")) {
+                if ((sb.length() > 0 ? sb.toString().split("#").length : 0) < 4) { 
+                    sb.append("#").append(s);
+                }
             }
         }
 
