@@ -52,8 +52,7 @@ if (toastType != null && toastMessage != null) {
 
 				<div class="row mb-4 g-3">
 					<div class="col-md-4">
-						<button class="btn btn-success w-40" data-bs-toggle="modal"
-							data-bs-target="#addModal">
+						<button class="btn btn-success w-40" data-bs-toggle="modal"	data-bs-target="#addModal" id="add" onclick="openAddModal()">
 							<i class="bi bi-plus-circle"></i> <fmt:message key="news.field.add" />
 						</button>
 					</div>
@@ -140,11 +139,9 @@ if (toastType != null && toastMessage != null) {
 						<!-- hidden action -->
 						<input type="hidden" name="action"
 							value="${cat != null ? 'update' : ''}"> 
-						<c:if test="${cat != null}">
-							<input name="id"
-								class="form-control mb-3" placeholder="<fmt:message key="news.modal.id"/>"
-								value="${cat != null ? cat.id : ''}" required> 
-						</c:if>
+						<input name="id"
+							class="form-control mb-3" placeholder="<fmt:message key="news.modal.id"/>"
+							value="${cat != null ? cat.id : ''}" required> 
 						<input
 							name="title" class="form-control mb-3" placeholder="<fmt:message key="news.modal.text"/>"
 							value="${cat != null ? cat.title : ''}" required>
@@ -197,6 +194,11 @@ if (toastType != null && toastMessage != null) {
 if (toastType != null && toastMessage != null) {
 %>
 <script>
+	
+	function openAddModal() {
+	    window.location = 'news?action=create';
+	}
+
     document.addEventListener('DOMContentLoaded', function() {
         const toastEl = document.getElementById('mainToast');
         const toastIcon = document.getElementById('toastIcon');
