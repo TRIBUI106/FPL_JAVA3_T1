@@ -139,9 +139,13 @@ if (toastType != null && toastMessage != null) {
 					<div class="modal-body">
 						<!-- hidden action -->
 						<input type="hidden" name="action"
-							value="${cat != null ? 'update' : ''}"> <input name="id"
-							class="form-control mb-3" placeholder="<fmt:message key="news.modal.id"/>"
-							value="${cat != null ? cat.id : ''}" required> <input
+							value="${cat != null ? 'update' : ''}"> 
+						<c:if test="${cat != null}">
+							<input name="id"
+								class="form-control mb-3" placeholder="<fmt:message key="news.modal.id"/>"
+								value="${cat != null ? cat.id : ''}" required> 
+						</c:if>
+						<input
 							name="title" class="form-control mb-3" placeholder="<fmt:message key="news.modal.text"/>"
 							value="${cat != null ? cat.title : ''}" required>
 
