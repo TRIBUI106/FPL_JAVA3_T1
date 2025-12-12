@@ -67,7 +67,10 @@ public class NewsController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    	req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
+        
         String action = req.getParameter("action");
         String id = req.getParameter("id");
 
@@ -76,12 +79,6 @@ public class NewsController extends HttpServlet {
         String categoryId = req.getParameter("categoryId");
         boolean home = req.getParameter("home") != null;
         
-        if (title != null) {
-            title = new String(title.getBytes("ISO-8859-1"), "UTF-8");
-        }
-        if (content != null) {
-            content = new String(content.getBytes("ISO-8859-1"), "UTF-8");
-        }
         
         // Lấy file upload
         Part imagePart = req.getPart("image");
