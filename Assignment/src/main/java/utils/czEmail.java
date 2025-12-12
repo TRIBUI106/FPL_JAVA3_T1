@@ -1,6 +1,6 @@
 package utils;
 
-import dao.NewsLetterDAO;
+import dao.NewsletterDAO;
 import utils.czEmailUtils;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
  */
 public class czEmail {
     
-    private final NewsLetterDAO newsletterDAO = new NewsLetterDAO();
+    private final NewsletterDAO newsletterDAO = new NewsletterDAO();
     
     // Thread pool với 5 worker threads để xử lý email
     private static final ExecutorService emailExecutor = Executors.newFixedThreadPool(5);
