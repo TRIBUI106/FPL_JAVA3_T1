@@ -15,16 +15,6 @@ import entity.News;
 public class DetailController extends HttpServlet {
     private NewsDAO dao = new NewsDAO();
     
-	// Dữ liệu mẫu (sau này thay bằng DAO)
-	private static final String[][] SAMPLE_NEWS = { { "1", "TP.HCM mưa lớn, nhiều tuyến đường ngập sâu",
-			"Nội dung chi tiết về mưa lũ ở Sài Gòn hôm nay...<br><br>Đường Nguyễn Hữu Cảnh ngập sâu 0.5m, người dân khổ sở...",
-			"https://via.placeholder.com/800x450/0066cc/ffffff?text=Mua+Lon+TP.HCM", "24/11/2025" },
-			{ "2", "Việt Nam vô địch SEA Games 33",
-					"Tuyển Việt Nam đã xuất sắc đánh bại Thái Lan 3-1 trong trận chung kết...",
-					"https://via.placeholder.com/800x450/ffcc00/000000?text=Vang+Bong+SEA+Games", "23/11/2025" },
-			{ "3", "Giá xăng giảm lần thứ 5 liên tiếp", "Từ 15h hôm nay, xăng RON 95 giảm 500 đồng/lít...",
-					"https://via.placeholder.com/800x450/009933/ffffff?text=Xang+Giam+Gia", "22/11/2025" } };
-
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
