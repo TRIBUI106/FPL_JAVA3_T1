@@ -1,7 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import dao.NewsLetterDAO;
+import dao.NewsletterDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/notifyRegister")
 public class EmailRegister extends HttpServlet {
 
-	private final NewsLetterDAO dao = new NewsLetterDAO();
+	private final NewsletterDAO dao = new NewsletterDAO();
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
