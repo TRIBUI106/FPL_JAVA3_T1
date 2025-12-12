@@ -123,11 +123,6 @@
             <scope>test</scope>
         </dependency>
 
-		<dependency>
-			<groupId>com.chez1s</groupId>
-			<artifactId>PRO230_Assignment</artifactId>
-			<version>4.2.0</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

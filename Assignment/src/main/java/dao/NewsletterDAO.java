@@ -8,7 +8,7 @@ import java.util.List;
 import entity.Newsletter;
 import utils.XJdbc;
 
-public class NewsLetterDAO {
+public class NewsletterDAO {
 
 	private static final String SELECT_ALL = "SELECT Email FROM NEWSLETTERS";
 	private final String registerNotifyEmailSQL = "INSERT INTO NEWSLETTERS(Email) VALUE (?)";
