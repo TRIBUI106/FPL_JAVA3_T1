@@ -69,10 +69,12 @@ public class NewsController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         String action = req.getParameter("action");
-        String id = req.getParameter("id") != null ? req.getParameter("id") : 0;
         String title = req.getParameter("title");
         String content = req.getParameter("content");
         String categoryId = req.getParameter("categoryId");
+        int num = dao.getLatestIdWithCategory(categoryId);
+        String newId = num < 100 ? "0" + num : String.valueOf(num);
+        String id = req.getParameter("id") != null ? newId : String.valueOf(0);
         boolean home = req.getParameter("home") != null;
         
         
@@ -122,9 +124,6 @@ public class NewsController extends HttpServlet {
         } else {
             // ========== THÊM MỚI TIN TỨC ==========
             n.setViewCount(0);
-            int num = dao.getLatestIdWithCategory(categoryId);
-            String newId = num < 100 ? "0" + num : String.valueOf(num);
-            n.setId(newId);
             
             boolean result = dao.insert(n);
             
