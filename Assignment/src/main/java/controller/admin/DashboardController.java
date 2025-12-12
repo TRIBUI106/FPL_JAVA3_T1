@@ -1,5 +1,6 @@
 package controller.admin;
 import jakarta.servlet.*;
+
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import dao.NewsDAO;
 import dao.CategoryDAO;
 import dao.UserDAO;
-import dao.NewsLetterDAO;
+import dao.NewsletterDAO;
 
 @WebServlet({"/admin/dashboard", "/admin/logout", "/admin"})
 public class DashboardController extends HttpServlet {
@@ -16,7 +17,7 @@ public class DashboardController extends HttpServlet {
     private final NewsDAO newsDAO = new NewsDAO();
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final UserDAO userDAO = new UserDAO();
-    private final NewsLetterDAO newsletterDAO = new NewsLetterDAO();
+    private final NewsletterDAO newsletterDAO = new NewsletterDAO();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
