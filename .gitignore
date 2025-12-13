@@ -21,3 +21,5 @@ Assignment/.idea/misc.xml
 *.classpath
 *.project
 *.settings/
+src/main/resources/resources.properties
+/bin

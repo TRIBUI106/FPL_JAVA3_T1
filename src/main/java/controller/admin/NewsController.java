@@ -20,50 +20,64 @@ import dao.NewsDAO;
 @MultipartConfig
 public class NewsController extends HttpServlet {
     private NewsDAO dao = new NewsDAO();
-    private czEmail emailService = new czEmail(); // ← Thêm EmailService
+    private czEmail emailService = new czEmail();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         String id = req.getParameter("id");
+        String format = req.getParameter("format");
 
-     // Thêm phần xử lý action "getLatestId"
+        // ========== LẤY LATEST ID ==========
         if ("getLatestId".equals(action)) {
             String categoryId = req.getParameter("categoryId");
             int num = dao.getLatestIdWithCategory(categoryId);
             String newId = num < 100 ? "0" + num : String.valueOf(num);
             String latestId = categoryId + newId;
             
-            resp.setContentType("application/json");
+            resp.setContentType("application/json;charset=UTF-8");
             resp.getWriter().write("{\"latestId\": \"" + latestId + "\"}");
             return;
         }
-        
+
+        // ========== LẤY DỮ LIỆU EDIT THEO FORMAT JSON ==========
+        if ("edit".equals(action) && id != null && "json".equals(format)) {
+            News news = dao.findById(id);
+            
+            // Tạo JSON thủ công
+            String json = String.format(
+                "{\"id\": \"%s\", \"title\": \"%s\", \"content\": \"%s\", \"categoryId\": \"%s\", \"home\": %s}",
+                escapeJson(news.getId()),
+                escapeJson(news.getTitle()),
+                escapeJson(news.getContent()),
+                escapeJson(news.getCategoryId()),
+                news.isHome()
+            );
+            
+            resp.setContentType("application/json;charset=UTF-8");
+            resp.getWriter().write(json);
+            return;
+        }
+
+        // ========== XÓA TIN ==========
         if ("delete".equals(action) && id != null) {
             dao.delete(id);
             resp.sendRedirect(req.getContextPath() + "/admin/news");
             return;
         }
 
-        if ("edit".equals(action) && id != null) {
-            News cat = dao.findById(id);
-            req.setAttribute("cat", cat);
-        }
+        // ========== LẤY DANH SÁCH TIN VÀ CATEGORIES ==========
         String searchBy = req.getParameter("searchBy");
         String keyword = req.getParameter("keyword");
         List<News> list;
 
         if (searchBy != null && !searchBy.equals("all") && keyword != null && !keyword.isBlank()) {
-            // lọc kết hợp loại tin + id hoặc content
             list = dao.searchByCategoryAndKeyword(searchBy, keyword);
         } else if (searchBy != null && !searchBy.equals("all")) {
-            // lọc theo thể loại tin
             list = dao.searchByCategory(searchBy);
         } else if (keyword != null && !keyword.isBlank()) {
-            // tìm theo keyword trên nhiều cột
             list = dao.searchNews("all", keyword);
         } else {
-            // hiển thị tất cả khi keyword rỗng
             list = dao.getAll();
         }
         
@@ -72,10 +86,10 @@ public class NewsController extends HttpServlet {
         List<Category> categories = dao.getAllCate();
         req.setAttribute("categories", categories);
         
-        // Auto ID
+        // Auto Gen nè 
         String catId = categories.getFirst().getId();
         int num = dao.getLatestIdWithCategory(catId);
-        String latestId = num < 100 ? ( num < 10 ? "00" + num : "0" + num ) : String.valueOf(num);
+        String latestId = num < 100 ? (num < 10 ? "00" + num : "0" + num)  : String.valueOf(num);
         latestId = catId + latestId;
         
         req.setAttribute("latestId", latestId);
@@ -91,11 +105,8 @@ public class NewsController extends HttpServlet {
         String title = req.getParameter("title");
         String content = req.getParameter("content");
         String categoryId = req.getParameter("categoryId");
-        int num = dao.getLatestIdWithCategory(categoryId);
-        String newId = num < 100 ? "0" + num : String.valueOf(num);
-        String id = req.getParameter("id") != null ? newId : String.valueOf(0);
+        String id = req.getParameter("id");
         boolean home = req.getParameter("home") != null;
-        
         
         // Lấy file upload
         Part imagePart = req.getPart("image");
@@ -141,12 +152,10 @@ public class NewsController extends HttpServlet {
             dao.update(n);
             message = "Cập nhật tin thành công!";
         } else {
-            // ========== THÊM MỚI TIN TỨC ==========
             n.setViewCount(0);
             
             boolean result = dao.insert(n);
             
-            // ========== GỬI EMAIL ASYNC (KHÔNG CHẶN RESPONSE) ==========
             if (result && n.getId() != null) {
                 String newsUrl = req.getScheme() + "://" + 
                                 req.getServerName() + ":" + 
@@ -159,7 +168,6 @@ public class NewsController extends HttpServlet {
                                     req.getServerPort() + 
                                     req.getContextPath();
                 
-                // Gọi async - return ngay lập tức
                 emailService.sendNewsNotificationAsync(
                     n.getId(), 
                     title, 
@@ -176,5 +184,17 @@ public class NewsController extends HttpServlet {
         req.getSession().setAttribute("toastType", "success");
         req.getSession().setAttribute("toastMessage", message);
         resp.sendRedirect(req.getContextPath() + "/admin/news");
+    }
+    
+    // ========== HÀM ESCAPE JSON ==========
+    private String escapeJson(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value.replace("\\", "\\\\")
+                   .replace("\"", "\\\"")
+                   .replace("\n", "\\n")
+                   .replace("\r", "\\r")
+                   .replace("\t", "\\t");
     }
 }
