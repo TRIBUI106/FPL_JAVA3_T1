@@ -27,7 +27,8 @@
             <li class="list-group-item border-0 px-0 py-3">
                 <div class="d-flex gap-3 align-items-start">
                     <% if (image != null && !image.isEmpty() && !"null".equals(image)) { %>
-                    <img src="<%=image%>" class="rounded flex-shrink-0" width="80" height="60" style="object-fit:cover" alt="thumb">
+<img src="${pageContext.request.contextPath}/admin/news?action=image&file=<%=image%>" 
+     class="rounded flex-shrink-0" width="80" height="60" style="object-fit:cover" alt="thumb">
                     <% } %>
                     <div>
                         <a href="${pageContext.request.contextPath}/detail?id=<%=id%>"
