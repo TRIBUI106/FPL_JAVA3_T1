@@ -58,6 +58,35 @@ public class NewsDAO {
 		                 "OR CAST(Author AS CHAR CHARACTER SET utf8mb4) LIKE ? " +
 		                 "OR CAST(Content AS CHAR CHARACTER SET utf8mb4) LIKE ?) " +
 		                 "ORDER BY PostedDate DESC";
+		
+	/*
+	 * @param categoryId
+	 * @return new ID 
+	 * @example input VH
+	 * @example return VH020
+	 * @author chez1s ( TRIBUI106 )
+	 * if you read this please read the document before code
+	 */
+	private static final String GET_LATEST_ID = "SELECT getLatestIdByCat(?)";
+		
+	public int getLatestIdWithCategory(String categoryId) {
+		ResultSet rs = XJdbc.executeQuery(GET_LATEST_ID, categoryId);
+		
+		int num = 1;
+		try {
+			while ( rs.next() ) {
+				num = rs.getInt(1);
+			}
+			
+			
+			return num;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			return 1;
+		}
+		
+	}
+		
 	
 	public List<News> searchNews(String searchBy, String keyword) {
 	    String likeKeyword = "%" + keyword + "%";

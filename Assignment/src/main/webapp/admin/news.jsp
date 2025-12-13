@@ -52,8 +52,7 @@ if (toastType != null && toastMessage != null) {
 
 				<div class="row mb-4 g-3">
 					<div class="col-md-4">
-						<button class="btn btn-success w-40" data-bs-toggle="modal"
-							data-bs-target="#addModal">
+						<button class="btn btn-success w-40" data-bs-toggle="modal"	data-bs-target="#addModal" id="add" onclick="openAddModal()">
 							<i class="bi bi-plus-circle"></i> <fmt:message key="news.field.add" />
 						</button>
 					</div>
@@ -139,9 +138,11 @@ if (toastType != null && toastMessage != null) {
 					<div class="modal-body">
 						<!-- hidden action -->
 						<input type="hidden" name="action"
-							value="${cat != null ? 'update' : ''}"> <input name="id"
+							value="${cat != null ? 'update' : ''}"> 
+						<input name="id"
 							class="form-control mb-3" placeholder="<fmt:message key="news.modal.id"/>"
-							value="${cat != null ? cat.id : ''}" required> <input
+							value="${cat != null ? cat.id : latestId}" disabled> 
+						<input
 							name="title" class="form-control mb-3" placeholder="<fmt:message key="news.modal.text"/>"
 							value="${cat != null ? cat.title : ''}" required>
 
@@ -149,14 +150,16 @@ if (toastType != null && toastMessage != null) {
 							placeholder="<fmt:message key="news.modal.content"/>">${cat != null ? cat.content : ''}</textarea>
 
 						<input type="file" name="image" class="form-control mb-3"
-							accept="image/*" ${cat == null ? 'required' : ''}> <select
-							name="categoryId" class="form-select mb-3">
-							<c:forEach items="${categories}" var="c">
-								<option value="${c.id}"
-									${cat != null && cat.categoryId == c.id ? 'selected' : ''}>
-									${c.name}</option>
-							</c:forEach>
+							accept="image/*" ${cat == null ? 'required' : ''}> 
+						
+						<select name="categoryId" class="form-select mb-3" id="categorySelect" onchange="updateLatestId()">
+						    <c:forEach items="${categories}" var="c">
+						        <option value="${c.id}"
+						            ${cat != null && cat.categoryId == c.id ? 'selected' : ''}>
+						            ${c.name}</option>
+						    </c:forEach>
 						</select>
+						
 
 						<div class="form-check">
 							<input type="checkbox" name="home" class="form-check-input"
@@ -188,11 +191,19 @@ if (toastType != null && toastMessage != null) {
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
+
+<input type="hidden" id="latestIdInput" value="${latestId}">
+
 <!-- Script hiển thị toast -->
 <%
 if (toastType != null && toastMessage != null) {
 %>
 <script>
+	
+	function openAddModal() {
+	    window.location = 'news?action=create';
+	}
+
     document.addEventListener('DOMContentLoaded', function() {
         const toastEl = document.getElementById('mainToast');
         const toastIcon = document.getElementById('toastIcon');
@@ -232,6 +243,27 @@ if (toastType != null && toastMessage != null) {
 <%
 }
 %>
+
+<script>
+function updateLatestId() {
+    const categoryId = document.getElementById('categorySelect').value;
+    
+    // Gọi API để lấy latestId mới
+    fetch('${pageContext.request.contextPath}/admin/news?action=getLatestId&categoryId=' + categoryId)
+        .then(response => response.json())
+        .then(data => {
+            // Cập nhật giá trị latestId
+            document.getElementById('latestIdInput').value = data.latestId;
+            
+            // Cập nhật giá trị trong input id field
+            const idField = document.querySelector('input[name="id"]');
+            if (idField) {
+                idField.value = data.latestId;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
 
 </html>
 
