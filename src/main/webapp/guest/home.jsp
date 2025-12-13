@@ -61,7 +61,7 @@
 					<c:forEach var="n" items="${homeNews}">
 						<div class="col-sm-6 col-md-4">
 							<div class="card news-card border-0 shadow-sm h-100">
-								<img src="${pageContext.request.contextPath}/${n.image}"
+								<img src="${pageContext.request.contextPath}/admin/news?action=image&file=${n.image}"
 									class="card-img-top" alt="${n.title}">
 								<div class="card-body">
 									<h6>
@@ -86,7 +86,7 @@
 					<c:forEach var="n" items="${latestNews}">
 						<div class="col-sm-6 col-md-4">
 							<div class="card news-card border-0 shadow-sm h-100">
-								<img src="${pageContext.request.contextPath}/${n.image}"
+								<img src="${pageContext.request.contextPath}/admin/news?action=image&file=${n.image}"
 									class="card-img-top" alt="${n.title}">
 								<div class="card-body">
 									<h6>

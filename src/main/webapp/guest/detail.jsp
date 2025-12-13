@@ -20,7 +20,7 @@
 					    <span class="mx-2">•</span> 
 					    <strong>${news.viewCount}</strong> lượt xem
 					</p>
-                    <img src="${pageContext.request.contextPath}/${news.image}" class="img-fluid rounded mb-4" alt="${news.title}">
+                    <img src="${pageContext.request.contextPath}/admin/news?action=image&file=${news.image}" class="img-fluid rounded mb-4" alt="${news.title}">
                     <div class="lead fs-5 text-justify">
                         ${news.content}
                     </div>
