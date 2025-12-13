@@ -27,6 +27,18 @@ public class NewsController extends HttpServlet {
         String action = req.getParameter("action");
         String id = req.getParameter("id");
 
+     // Thêm phần xử lý action "getLatestId"
+        if ("getLatestId".equals(action)) {
+            String categoryId = req.getParameter("categoryId");
+            int num = dao.getLatestIdWithCategory(categoryId);
+            String newId = num < 100 ? "0" + num : String.valueOf(num);
+            String latestId = categoryId + newId;
+            
+            resp.setContentType("application/json");
+            resp.getWriter().write("{\"latestId\": \"" + latestId + "\"}");
+            return;
+        }
+        
         if ("delete".equals(action) && id != null) {
             dao.delete(id);
             resp.sendRedirect(req.getContextPath() + "/admin/news");
@@ -54,12 +66,19 @@ public class NewsController extends HttpServlet {
             // hiển thị tất cả khi keyword rỗng
             list = dao.getAll();
         }
-
-
+        
         req.setAttribute("listNews", list);
 
         List<Category> categories = dao.getAllCate();
         req.setAttribute("categories", categories);
+        
+        // Auto ID
+        String catId = categories.getFirst().getId();
+        int num = dao.getLatestIdWithCategory(catId);
+        String latestId = num < 100 ? ( num < 10 ? "00" + num : "0" + num ) : String.valueOf(num);
+        latestId = catId + latestId;
+        
+        req.setAttribute("latestId", latestId);
         req.setAttribute("searchBy", searchBy);
         req.setAttribute("keyword", keyword);
         req.getRequestDispatcher("/admin/news.jsp").forward(req, resp);
@@ -69,11 +88,12 @@ public class NewsController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         String action = req.getParameter("action");
-        String id = req.getParameter("id");
-
         String title = req.getParameter("title");
         String content = req.getParameter("content");
         String categoryId = req.getParameter("categoryId");
+        int num = dao.getLatestIdWithCategory(categoryId);
+        String newId = num < 100 ? "0" + num : String.valueOf(num);
+        String id = req.getParameter("id") != null ? newId : String.valueOf(0);
         boolean home = req.getParameter("home") != null;
         
         
@@ -123,6 +143,7 @@ public class NewsController extends HttpServlet {
         } else {
             // ========== THÊM MỚI TIN TỨC ==========
             n.setViewCount(0);
+            
             boolean result = dao.insert(n);
             
             // ========== GỬI EMAIL ASYNC (KHÔNG CHẶN RESPONSE) ==========
