@@ -29,7 +29,7 @@
                         <!-- Image -->
                         <c:choose>
                             <c:when test="${not empty news.image}">
-                                <img src="${pageContext.request.contextPath}/uploads/${news.image}" 
+                                <img src="${pageContext.request.contextPath}/admin/news?action=image&file=${news.image}" 
                                      class="card-img-top" 
                                      alt="${news.title}"
                                      style="height: 250px; object-fit: cover;">
