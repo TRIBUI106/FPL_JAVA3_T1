@@ -102,7 +102,7 @@ if (toastType != null && toastMessage != null) {
 								<td>${n.id}</td>
 								<td>${n.title}</td>
 								<td><img
-									src="${pageContext.request.contextPath}/${n.image}" width="80"
+									src="${pageContext.request.contextPath}/admin/news?action=image&file=${n.image}" width="80"
 									class="rounded"></td>
 								<td>${n.postedDate}</td>
 								<td>${n.author}</td>
