@@ -17,3 +17,7 @@ Assignment/.idea/workspace.xml
 Assignment/.idea/vcs.xml
 Assignment/.idea/misc.xml
 /Assignment/.idea
+
+*.classpath
+*.project
+*.settings/
