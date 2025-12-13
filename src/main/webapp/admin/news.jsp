@@ -52,7 +52,7 @@ if (toastType != null && toastMessage != null) {
 
 				<div class="row mb-4 g-3">
 					<div class="col-md-4">
-						<button class="btn btn-success w-40" data-bs-toggle="modal"	data-bs-target="#addModal" id="add" onclick="openAddModal()">
+						<button type="button" class="btn btn-success w-40" id="addBtn">
 							<i class="bi bi-plus-circle"></i> <fmt:message key="news.field.add" />
 						</button>
 					</div>
@@ -120,50 +120,44 @@ if (toastType != null && toastMessage != null) {
 		</div>
 	</div>
 
-	<!-- Modal thêm tin -->
+	<!-- Modal thêm/sửa tin -->
 	<div class="modal fade" id="addModal" tabindex="-1">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<form action="${pageContext.request.contextPath}/admin/news"
-					method="post" enctype="multipart/form-data">
+					method="post" enctype="multipart/form-data" id="newsForm">
 					<div class="modal-header">
-						<h5 class="modal-title">
-							<c:choose>
-								<c:when test="${cat != null}"><fmt:message key="news.modal.edit"/></c:when>
-								<c:otherwise><fmt:message key="news.modal.add"/></c:otherwise>
-							</c:choose>
+						<h5 class="modal-title" id="modalTitle">
+							<fmt:message key="news.modal.add"/>
 						</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 					</div>
 					<div class="modal-body">
 						<!-- hidden action -->
-						<input type="hidden" name="action"
-							value="${cat != null ? 'update' : ''}"> 
-						<input name="id"
+						<input type="hidden" name="action" id="actionInput" value=""> 
+						<input name="id" id="newsId"
 							class="form-control mb-3" placeholder="<fmt:message key="news.modal.id"/>"
-							value="${cat != null ? cat.id : latestId}" disabled> 
+							value="${latestId}" required> 
 						<input
-							name="title" class="form-control mb-3" placeholder="<fmt:message key="news.modal.text"/>"
-							value="${cat != null ? cat.title : ''}" required>
+							name="title" id="newsTitle" class="form-control mb-3" placeholder="<fmt:message key="news.modal.text"/>"
+							value="" required>
 
-						<textarea name="content" class="form-control mb-3" rows="4"
-							placeholder="<fmt:message key="news.modal.content"/>">${cat != null ? cat.content : ''}</textarea>
+						<textarea name="content" id="newsContent" class="form-control mb-3" rows="4"
+							placeholder="<fmt:message key="news.modal.content"/>"></textarea>
 
-						<input type="file" name="image" class="form-control mb-3"
-							accept="image/*" ${cat == null ? 'required' : ''}> 
-						
-						<select name="categoryId" class="form-select mb-3" id="categorySelect" onchange="updateLatestId()">
-						    <c:forEach items="${categories}" var="c">
-						        <option value="${c.id}"
-						            ${cat != null && cat.categoryId == c.id ? 'selected' : ''}>
-						            ${c.name}</option>
-						    </c:forEach>
+						<input type="file" name="image" id="newsImage" class="form-control mb-3"
+							accept="image/*" required> 
+						<select
+							name="categoryId" class="form-select mb-3" id="categorySelect" onchange="updateLatestId()">
+							<c:forEach items="${categories}" var="c">
+								<option value="${c.id}">
+									${c.name}</option>
+							</c:forEach>
 						</select>
-						
 
 						<div class="form-check">
-							<input type="checkbox" name="home" class="form-check-input"
-								${cat != null && cat.home ? 'checked' : ''}> <label><fmt:message key="news.modal.showOnFeed"/></label>
+							<input type="checkbox" name="home" id="newsHome" class="form-check-input"> 
+							<label for="newsHome"><fmt:message key="news.modal.showOnFeed"/></label>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -176,34 +170,15 @@ if (toastType != null && toastMessage != null) {
 		</div>
 	</div>
 
-	<c:if test="${cat != null}">
-		<script>
-			document.addEventListener("DOMContentLoaded", function() {
-				var editModal = new bootstrap.Modal(document
-						.getElementById('addModal'));
-				editModal.show();
-			});
-		</script>
-	</c:if>
-
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-
-<input type="hidden" id="latestIdInput" value="${latestId}">
 
 <!-- Script hiển thị toast -->
 <%
 if (toastType != null && toastMessage != null) {
 %>
 <script>
-	
-	function openAddModal() {
-	    window.location = 'news?action=create';
-	}
-
     document.addEventListener('DOMContentLoaded', function() {
         const toastEl = document.getElementById('mainToast');
         const toastIcon = document.getElementById('toastIcon');
@@ -228,42 +203,112 @@ if (toastType != null && toastMessage != null) {
         <%}%>
         
         // Set message
-        toastText.textContent = '<%=toastMessage.replace("'", "\\'")%>
-	';
+        toastText.textContent = '<%=toastMessage.replace("'", "\\'")%>';
 
-		// Show toast với animation
-		const toast = new bootstrap.Toast(toastEl, {
-			autohide : true,
-			delay : 4000
-		// 4 giây
-		});
-		toast.show();
-	});
+        // Show toast với animation
+        const toast = new bootstrap.Toast(toastEl, {
+            autohide: true,
+            delay: 4000 // 4 giây
+        });
+        toast.show();
+    });
 </script>
 <%
 }
 %>
 
 <script>
-function updateLatestId() {
-    const categoryId = document.getElementById('categorySelect').value;
-    
-    // Gọi API để lấy latestId mới
-    fetch('${pageContext.request.contextPath}/admin/news?action=getLatestId&categoryId=' + categoryId)
-        .then(response => response.json())
-        .then(data => {
-            // Cập nhật giá trị latestId
-            document.getElementById('latestIdInput').value = data.latestId;
+    let addModalInstance = null;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Khởi tạo modal instance một lần duy nhất
+        addModalInstance = new bootstrap.Modal(document.getElementById('addModal'), {
+            backdrop: 'static',
+            keyboard: false
+        });
+        
+        // Gán sự kiện click cho button "Add"
+        document.getElementById('addBtn').addEventListener('click', openAddModal);
+    });
+
+    function openAddModal() {
+        // Reset form về trạng thái mặc định
+        resetForm();
+        
+        // Hiển thị modal
+        addModalInstance.show();
+    }
+
+    function resetForm() {
+        // Reset tất cả input fields
+        document.getElementById('newsForm').reset();
+        
+        // Set lại giá trị mặc định
+        document.getElementById('actionInput').value = '';
+        document.getElementById('newsTitle').value = '';
+        document.getElementById('newsContent').value = '';
+        document.getElementById('newsImage').removeAttribute('disabled');
+        document.getElementById('newsImage').setAttribute('required', 'required');
+        document.getElementById('newsHome').checked = false;
+        
+        // Set lại category mặc định (category đầu tiên)
+        const firstCategory = document.querySelector('#categorySelect option:first-child');
+        if (firstCategory) {
+            document.getElementById('categorySelect').value = firstCategory.value;
+            updateLatestId();
+        }
+        
+        // Update modal title
+        document.getElementById('modalTitle').textContent = '<fmt:message key="news.modal.add"/>';
+    }
+
+    function updateLatestId() {
+        const categoryId = document.getElementById('categorySelect').value;
+        
+        // Gọi API để lấy latestId mới
+        fetch('${pageContext.request.contextPath}/admin/news?action=getLatestId&categoryId=' + categoryId)
+            .then(response => response.json())
+            .then(data => {
+                // Cập nhật giá trị latestId
+                document.getElementById('newsId').value = data.latestId;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Xử lý khi modal đóng - đảm bảo form được reset
+    document.getElementById('addModal').addEventListener('hidden.bs.modal', function() {
+        resetForm();
+    });
+
+    // Thêm xử lý click vào button edit trong table
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-warning')) {
+            e.preventDefault();
+            const href = e.target.getAttribute('href');
             
-            // Cập nhật giá trị trong input id field
-            const idField = document.querySelector('input[name="id"]');
-            if (idField) {
-                idField.value = data.latestId;
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
+            // Tải dữ liệu edit
+            fetch(href.replace('/admin/news?', '/admin/news?format=json&'))
+                .then(response => response.json())
+                .then(data => {
+                    // Populate form với dữ liệu edit
+                    document.getElementById('newsId').value = data.id;
+                    document.getElementById('newsTitle').value = data.title;
+                    document.getElementById('newsContent').value = data.content;
+                    document.getElementById('categorySelect').value = data.categoryId;
+                    document.getElementById('newsHome').checked = data.home;
+                    document.getElementById('actionInput').value = 'update';
+                    document.getElementById('newsImage').removeAttribute('required');
+                    document.getElementById('modalTitle').textContent = '<fmt:message key="news.modal.edit"/>';
+                    
+                    // Hiển thị modal
+                    addModalInstance.show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    window.location.href = href;
+                });
+        }
+    });
 </script>
 
 </html>
-
