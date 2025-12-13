@@ -9,6 +9,8 @@ import jakarta.servlet.http.*;
 import utils.czEmail;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -21,13 +23,34 @@ import dao.NewsDAO;
 public class NewsController extends HttpServlet {
     private NewsDAO dao = new NewsDAO();
     private czEmail emailService = new czEmail();
-
+    private static final String UPLOAD_DIR = "D:/uploads/";
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         String id = req.getParameter("id");
         String format = req.getParameter("format");
 
+     // ========== Load ảnh và lưu từ ổ D trong thư mục uploads ==========
+        if ("image".equals(action)) {
+            String file = req.getParameter("file");
+            if (file == null) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            File imgFile = new File(UPLOAD_DIR, file);
+            if (!imgFile.exists()) {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+            resp.setContentType(getServletContext().getMimeType(imgFile.getName()));
+            try (FileInputStream in = new FileInputStream(imgFile);
+                 OutputStream out = resp.getOutputStream()) {
+                in.transferTo(out);
+            }
+            return;
+        }
+        
         // ========== LẤY LATEST ID ==========
         if ("getLatestId".equals(action)) {
             String categoryId = req.getParameter("categoryId");
@@ -108,18 +131,16 @@ public class NewsController extends HttpServlet {
         String id = req.getParameter("id");
         boolean home = req.getParameter("home") != null;
         
-        // Lấy file upload
+     // Lấy file upload
         Part imagePart = req.getPart("image");
         String fileName = imagePart.getSubmittedFileName();
 
-        String uploadPath = req.getServletContext().getRealPath("/img");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdirs();
-
         String imagePath = null;
         if (fileName != null && !fileName.isEmpty()) {
-            imagePart.write(uploadPath + File.separator + fileName);
-            imagePath = "img/" + fileName;
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+            imagePart.write(UPLOAD_DIR + fileName);
+            imagePath = fileName; // chỉ lưu tên file
         }
 
         News n = new News();
