@@ -22,3 +22,4 @@ Assignment/.idea/misc.xml
 *.project
 *.settings/
 src/main/resources/resources.properties
+/bin
