@@ -91,30 +91,6 @@
             <scope>test</scope>
         </dependency>
 
-		<!-- Selenium WebDriver -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>4.38.0</version>
-            <scope>test</scope>
-        </dependency>
-
-		<!-- Selenium Chrome Driver -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>4.38.0</version>
-            <scope>test</scope>
-        </dependency>
-
-		<!-- WebDriverManager (tự động quản lý ChromeDriver) -->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>5.6.2</version>
-            <scope>test</scope>
-        </dependency>
-
 		<!-- Hamcrest (for better assertions) -->
         <dependency>
             <groupId>org.hamcrest</groupId>
